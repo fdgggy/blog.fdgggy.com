@@ -3,7 +3,7 @@
 
 name = "rapid"
 license = "MIT"
-licenselink = "https://github.com/coderzh/hugo-theme-rapid/blob/master/LICENSE.md"
+# licenselink = "https://github.com/coderzh/hugo-theme-rapid/blob/master/LICENSE.md"
 description = ""
 homepage = "https://fdgggy.github.io/"
 tags = ["", ""]

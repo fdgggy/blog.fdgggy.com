@@ -1,7 +1,7 @@
 title: "fdgggy blog"
 languageCode: "zh-CN"
 baseurl: "https://fdgggy.github.io/"
-copyright: "Copyright (c) 2017. All rights reserved.  <a href='http://www.miitbeian.gov.cn/'>粤ICP备17074587号-1</a>"
+copyright: "Copyright (c) 2019. All rights reserved."
 theme: "hugo-rapid-theme"
 MetaDataFormat: "yaml"
 canonifyurls: true
@@ -31,7 +31,7 @@ Taxonomies:
 params:
   GitHubUser: "fdgggy"
   SidebarRecentLimit: 5
-  DateForm : "2019年07月11日"
+  DateForm : "2006年01月02日"
   Tagline: "一个程序员的思考与总结"
   Description: "如果你没有感觉到时间不够用时，你多半正在虚度光阴。"
   Keywords: "独立博客,程序员,思考,读书笔记,技术分享"

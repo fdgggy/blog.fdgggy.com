@@ -1,0 +1,66 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>一个程序员的思考</title>
+        <link>https://fdgggy.github.io/feed.xml</link>
+        <language>zh-CN</language>
+        <author>CoderZh</author>
+        <rights>Copyright (c) 2015, CoderZh; all rights reserved.</rights>
+        <updated>Mon, 15 Jul 2019 12:05:08 CST</updated>
+        
+        <item>
+            <title>First</title>
+            <link>https://fdgggy.github.io/post/2019/first/</link>
+            <pubDate>Mon, 15 Jul 2019 12:05:08 CST</pubDate>
+            <author>CoderZh</author>
+            <guid>https://fdgggy.github.io/post/2019/first/</guid>
+            <description>&lt;p&gt;Hello Kitty&lt;/p&gt;
+</description>
+        </item>
+        
+        <item>
+            <title>关于我</title>
+            <link>https://fdgggy.github.io/about/</link>
+            <pubDate>Mon, 01 Jan 0001 00:00:00 UTC</pubDate>
+            <author>CoderZh</author>
+            <guid>https://fdgggy.github.io/about/</guid>
+            <description>
+
+&lt;p class=&#34;message&#34;&gt;
+大家好，我是 fdgggy，是一名程序员。
+&lt;/p&gt;
+
+&lt;h3 id=&#34;我的技能&#34;&gt;我的技能&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;编程语言: Go, Lua, C#, Javasript, C++, Python, Php&lt;/li&gt;
+&lt;li&gt;游戏引擎: Unity3d, Creator&lt;/li&gt;
+&lt;li&gt;服务器引擎: Skynet, MatchVS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;生活中的我&#34;&gt;生活中的我&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;骑行。&lt;/li&gt;
+&lt;li&gt;爱折腾。&lt;/li&gt;
+&lt;li&gt;喜欢思考，相信技术能够改变世界。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;系列文章&#34;&gt;系列文章&lt;/h3&gt;
+
+&lt;h3 id=&#34;一些链接&#34;&gt;一些链接&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;我的独立博客：&lt;a href=&#34;http://fdgggy.com&#34;&gt;fdgggy.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Github: &lt;a href=&#34;https://github.com/fdgggy&#34;&gt;github.com/fdgggy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Email：359461238@qq.com&lt;/li&gt;
+&lt;li&gt;微信号：szzoujian&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;声明&#34;&gt;声明&lt;/h3&gt;
+
+&lt;p&gt;本博客所有文章皆为原创。转载请注明原文链接，并最好与本人联系。谢谢！&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
