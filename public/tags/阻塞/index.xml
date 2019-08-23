@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>阻塞 on niep的博客</title>
+    <link>https://fdgggy.github.io/tags/%E9%98%BB%E5%A1%9E/</link>
+    <description>Recent content in 阻塞 on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 15 Jul 2019 12:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://fdgggy.github.io/tags/%E9%98%BB%E5%A1%9E/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux 源码解析网络编程-I/O模型详解</title>
+      <link>https://fdgggy.github.io/2019/07/15/io_model/</link>
+      <pubDate>Mon, 15 Jul 2019 12:05:08 +0800</pubDate>
+      
+      <guid>https://fdgggy.github.io/2019/07/15/io_model/</guid>
+      <description>I/O模型 阻塞式I/O模型 socket套接字默认是阻塞的，如果I/O条件未满足，则进程或线程就会被挂起，直到I/O条件满足才返回。常用的IO操作都是阻塞I/O，如read一个已连接的套接字时，如果没有数据，那么就会挂起进程，阻塞等待，直到有数据可读时才返回。 如果采用阻塞式I/O做</description>
+    </item>
+    
+  </channel>
+</rss>

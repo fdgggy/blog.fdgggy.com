@@ -1,6 +1,6 @@
 baseURL = "https://fdgggy.github.io/"
 languageCode = "zh-CN"
-title = "niep博客"
+title = "niep的博客"
 theme = "maupassant"
 ## 保持分类的原始名字（false会做转小写处理）
 preserveTaxonomyNames = true

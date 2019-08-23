@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>niep的博客</title>
+    <link>https://fdgggy.github.io/</link>
+    <description>Recent content on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 15 Jul 2019 12:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://fdgggy.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux 源码解析网络编程-I/O模型详解</title>
+      <link>https://fdgggy.github.io/2019/07/15/io_model/</link>
+      <pubDate>Mon, 15 Jul 2019 12:05:08 +0800</pubDate>
+      
+      <guid>https://fdgggy.github.io/2019/07/15/io_model/</guid>
+      <description>I/O模型 阻塞式I/O模型 socket套接字默认是阻塞的，如果I/O条件未满足，则进程或线程就会被挂起，直到I/O条件满足才返回。常用的IO操作都是阻塞I/O，如read一个已连接的套接字时，如果没有数据，那么就会挂起进程，阻塞等待，直到有数据可读时才返回。 如果采用阻塞式I/O做</description>
+    </item>
+    
+    <item>
+      <title>移动端断线重连方案</title>
+      <link>https://fdgggy.github.io/2019/07/12/reconnect/</link>
+      <pubDate>Fri, 12 Jul 2019 12:05:08 +0800</pubDate>
+      
+      <guid>https://fdgggy.github.io/2019/07/12/reconnect/</guid>
+      <description>一、背景 移动平台下，网络信号变动非常频繁，造成更高的丢包率，更大的延迟抖动，不稳定的网络连接，处理不好，会造成很不好的游戏体验 二、场景 1.2G/3G/4G/WIFI 相互切换时client的IP变化. 2.地理位置变化导致网络制式的转换，手机基站之间的切换. 3.手机HOME/电源键，电话进来. 4.建筑死角，隧道</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://fdgggy.github.io/about/</link>
+      <pubDate>Thu, 11 Jul 2019 09:46:07 +0800</pubDate>
+      
+      <guid>https://fdgggy.github.io/about/</guid>
+      <description>大家好，我是 niep，是一名程序员。 我的技能 编程语言: Go, Lua, C#, Javasript, C++, Python, Php 游戏引擎: Unity3d, Creator 服务器引擎: Skynet, MatchVS 生活中的我 骑行。 爱折腾。 喜欢思考，相信技术能够改变世界。 系列文章 一些链接 我的独立博客：fdgggy.com Github: https://github.com/fdgggy Email：359461238@qq.com 微信号：szzoujian 声</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://fdgggy.github.io/archives/</link>
+      <pubDate>Thu, 11 Jul 2019 09:46:07 +0800</pubDate>
+      
+      <guid>https://fdgggy.github.io/archives/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

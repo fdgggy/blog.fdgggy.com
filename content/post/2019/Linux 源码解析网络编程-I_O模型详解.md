@@ -1,7 +1,7 @@
 ---
-title: "Linux 源码解析网络编程-I_O模型详解"
+title: "Linux 源码解析网络编程-I/O模型详解"
 date: 2019-07-15T12:05:08+08:00
-description: "Linux 源码解析网络编程-I_O模型详解"
+description: "Linux 源码解析网络编程-I/O模型详解"
 tags:
  - 网络IO
  - 阻塞
