@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>socket 绑定 on niep的博客</title>
+    <link>http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/</link>
+    <description>Recent content in socket 绑定 on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 16 Jul 2019 12:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux 源码解析网络编程--socket,bind</title>
+      <link>http://www.fdgggy.com/2019/07/16/socket/</link>
+      <pubDate>Tue, 16 Jul 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/07/16/socket/</guid>
+      <description>scoket() 作用：创建一个通信端点并返回一个引用该端点的文件描述符 int socket(int domain, int type, int protocol); 参数： @domain(协议域),用于通信的协议簇,如: @type 套接字类型，制定通信的语义,如: SOCK_STREAM 有序，可靠，双向，基于连接的字节流 TCP SOCK_DGRAM 数据报,无连接，不可靠，具有固定最大长度 UDP @protocol 协议类型常值,一般设为0，系统设定do</description>
+    </item>
+    
+  </channel>
+</rss>

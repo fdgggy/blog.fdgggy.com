@@ -1,4 +1,4 @@
-baseURL = "https://fdgggy.github.io/"
+baseURL = "http://www.fdgggy.com/"
 languageCode = "zh-CN"
 title = "niep的博客"
 theme = "maupassant"
