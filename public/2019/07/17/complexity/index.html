@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>复杂度分析(上) | niep的博客</title>
+    <meta property="og:title" content="复杂度分析(上) - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-07-17T12:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-07-17T12:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[数据结构 算法 时间复杂度 空间复杂度]">
+    <meta name="description" content="复杂度分析(上)">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/07/17/complexity/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于golang、skynet、unity3d、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">复杂度分析(上)</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年7月17日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95">数据结构与算法</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h4 id="数据结构与算法">数据结构与算法</h4>
+
+<ul>
+<li>数据结构是指一组数据的存储结构</li>
+<li>算法就是操作数据的方法</li>
+
+<li><p>数据结构和算法是相辅相成的，数据结构是为算法服务的，而算法要作用在特定的数据结构上</p>
+
+<h4 id="重点">重点</h4></li>
+
+<li><p>数据结构和算法解决的是如何更省，更快的存储和处理数据，因此需要一个考量效率和资源消耗的方法，这就是复杂度分析方法。</p></li>
+
+<li><p>学习数据结构与算法过程中，要学习的的来历，自身特点，适合解决的问题以及实际的应用场景</p></li>
+
+<li><p>建立时间，空间复杂度意识，写出高质量代码，设计基础架构，提升编程技能，训练逻辑思维，积攒人生经验，以此获得工作回报，实现价值，完善人生。</p></li>
+
+<li><p>大厂考数据结构与算法是因为：相比短期能力，他们更看重你的长期潜力。</p></li>
+</ul>
+
+<h4 id="为什么需要时间-空间复杂度分析">为什么需要时间，空间复杂度分析</h4>
+
+<p>事后统计：直接跑代码，通过统计、监控得到算法执行的时间和占用的内存大小
+   1.测试结果非常依赖测试环境
+     同样一段代码，分别在i9和i3来运行，i9要快很多。
+     原本在这台机器上a代码执行速度比b要快，换一台机器，可能结果截然相反
+   2.测试结果受数据规模的影响较大
+     对同一个排序算法，待排序数据的有序度不一样，排序的执行时间就会很大差别。
+     如果测试数据规模太小，测试结果可能无法真实反应算法性能，对于小规模的数据排序，插入排序可能会比快速排序要快。</p>
+
+<h4 id="大o复杂度表示法">大O复杂度表示法</h4>
+
+<p>1.大O复杂度表示法:算法的执行效率，粗略的讲就是算法执行时间，实际上是表示代码执行时间随数据规模增长的变化趋势。
+2.推倒过程</p>
+
+<pre><code class="language-c">int cal(int n) {
+    int sum = 0; //1次
+    int i = 1;  //1次
+    int j = 1;  //1次
+    for (; i &lt;= n; ++i) { //n次
+        j = 1;           //n次
+        for (; j &lt;= n; ++j) {//n^2次
+            sum += i*j;//n^2次
+        }
+    }
+    return sum;
+}
+</code></pre>
+
+<p>每行代码对应的CPU执行个数，时间都不一样，但是这里只是粗略估计，假定每行代码执行时间都一样，为unit_time。
+则总的执行时间为 T(n) = (2n^2+2n+3)*unit_time，尽管不知道unit_time的具体值，但得出规律：T(n)与每行代码的执行次数成正比。</p>
+
+<p>结论</p>
+
+<pre><code class="language-match">T(n)=O(f(n))
+</code></pre>
+
+<ul>
+<li>T(n)代表代码执行的时间，n表示数据规模大小，f(n)表示每行代码执行的次数总和。O表示代码执行时间T(n)与f(n)表达式成正比。</li>
+<li>大O时间复杂度实际上并不具体表示代码真正执行时间，而是表示代码执行时间随数据规模增长的变化趋势，所以，也叫渐进式时间复杂度，简称时间复杂度。</li>
+<li>例子中的大O表示法为  T(n)=O(2n^2+2n+3)，当n很大时，公式中的低阶，常量，系数并不影响增长趋势，所以都可以忽略。只记录一个最大量级就可以了，则例子中最终复杂度未 T(n)=O(n^2)。</li>
+<li>大O时间复杂度实际上并不具体表示代码真正执行时间，而是表示代码执行时间随数据规模增长的变化趋势，所以也叫渐进时间复杂度，简称时间复杂度。</li>
+</ul>
+
+<h4 id="时间复杂度分析">时间复杂度分析</h4>
+
+<ul>
+<li><p>只关注循环执行次数最多的一段代码</p>
+
+<pre><code class="language-c">int cal(int n) {
+int sum = 0; //1次   常量级，与n大小无关
+int i = 1;  //1次    对复杂度没有影响
+for (; i &lt;= n; ++i) { //n次
+    sum += i; //n次
+}
+return sum;
+}
+</code></pre>
+
+<p>T(n)=O(2n),系数忽略,最终，T(n)=O(n)。
+* 加法法则：总复杂度等于量级最大的那段代码的复杂度</p>
+
+<pre><code class="language-c">int cal(int n) {
+int sum_1 = 0;
+int p = 1;
+//执行了100次，常量级执行时间，跟n的规模无关(当n无限大的时候就可以忽略，时间复杂度的概念是表示的是一个算法执行效率与数据规模增长的变化趋势，所以不管常量执行时间多大，都可以忽略，本身对增长趋势并没有影响)
+for (; p &lt; 100; ++p) {
+    sum_i += p;
+}
+    
+int sum_2 = 0;
+int q = 1;
+for (; q &lt; n; ++q) {//O(n)
+    sum_2 += q;
+}
+    
+int sum_3 = 0;
+int i, j = 1;
+for (; i &lt;= n; ++i) {//O(n^2)
+    j = 1;
+    for (; j &lt;= n; ++j) {
+        sum_3 += i*j;
+    }
+}
+    
+return sum_1 + sum_2 + sum_3;
+}
+</code></pre></li>
+</ul>
+
+<p>分别分析每一部分的时间复杂度，再取一个量级最大的作为整段代码的复杂度。则整段代码的时间复杂度是O(n^2)</p>
+
+<pre><code class="language-math">T(n)=T1(n)+T2(n)=max(O(f(n)),O(g(n)))=O(max(f(n),g(n)))
+T(n)=O(max(f(n),g(n)))=O(max(n,n^2))=O(n^2)
+</code></pre>
+
+<ul>
+<li>乘法法则：嵌套代码的复杂度等于嵌套内外代码复杂度的乘积
+```c
+int cal(int n) {
+int ret = 0;
+int i = 1;
+for (; i &lt; n; ++i) { //O(n)
+    ret += f(i);
+}
+}</li>
+</ul>
+
+<p>int f(int n) {  //o(n)
+    int sum = 0;
+    int i = 1;
+    for (; i &lt; n; ++i) {
+        sum += i;
+    }
+    return sum;
+}</p>
+
+<pre><code>```math
+T(n)=T1(n)*T2(n)=O(f(n))*O(g(n))=O(f(n)*g(n))
+T(n)=O(f(n)*g(n))=O(n*n)=O(n^2)
+</code></pre>
+
+<h4 id="常见的时间复杂度实例分析">常见的时间复杂度实例分析</h4>
+
+<p><img src="/img/hugo/2019/复杂度分析(上).resources/283D4ABE-54F6-4050-86D2-26FD37602D19.png" alt="ccf973f92bf16c863387c2d44694b90a" /></p>
+
+<ul>
+<li><p>O(1)</p>
+
+<pre><code class="language-c">int i,j = 8;
+int sum = i + j;
+</code></pre>
+
+<p>O(1)只是常量级时间复杂度的一种表示方法，并不是只执行了一行代码。这行代码有3行，时间复杂度是O(1)而不是O(3)。只要代码的执行时间不随n的增大而增大，只要的复杂度就是O(1)。
+* O(logn),O(nlogn)</p>
+
+<pre><code class="language-c">int i = 1;
+while (i &lt;= n) {
+i *= 2;//循环次数最多的，计算除这行代码执行了多少次就能算出整段代码的时间复杂度
+}
+</code></pre>
+
+<p>分析:变量i的值从1开始取，每循环一次乘以2，大于n时结束。
+则i的取值为:
+$2^0$ $2^1$ $2^2$ $2^3$ &hellip; $2^x$=n
+只需要知道x的值是多少，就知道这行代码执行次数了。
+$2^x$ = n  =&gt;  x = ${log_2{n}}$
+结论：O(${log_2{n}}$)</p>
+
+<hr />
+
+<p>修改一下</p>
+
+<pre><code class="language-c">int i = 1;
+while (i &lt;= n) {
+i *= 3;
+}
+</code></pre>
+
+<p>结论：O(${log_3{n}}$)
+最终：不管是以2为底，还是3为底，把所有对数阶的时间复杂度都标记为0($log{n}$)
+O(logn)，如果一段代码的时间复杂度是O(logn)，循环执行n次，则时间复杂度就是O(nlogn)了。如归并排序，快速排序。
+* O(m+n),O(m*n)</p>
+
+<pre><code class="language-c">int cal(int m, int n) {
+int sum_1 = 0;
+int i = 1;
+for (; i &lt; m; ++i) {  //O(m)
+    sum_1 += i;
+}
+    
+int sum_2 = 0;
+int j = 1;
+for (; j &lt; n; ++i) {  //O(n)
+    sum_2 += j;
+}
+}
+</code></pre></li>
+</ul>
+
+<p>m,n表示数据规模，无法预估，不能用加法规则。时间复杂度为O(m+n)
+如果是乘法规则的一段代码，如2个嵌套，则时间复杂度为O(m*n)</p>
+
+<h4 id="空间复杂度分析">空间复杂度分析</h4>
+
+<p>时间复杂度：表示算法执行时间与数据规模的增长关系
+空间复杂度：表示算法存储空间与数据规模的增长关系</p>
+
+<pre><code class="language-c">void print(int n) {
+    int i = 0;   //常量阶，跟数据规模n无关，忽略
+    int []a = new int[n]; //O(n)
+    for (i: i &lt; n; ++i) {
+        a[i] = i*i;
+    }
+    for (i = n-1; i &gt;= 0; --i) {
+        print(a[i])
+    }
+}
+</code></pre>
+
+<p>只是在第三行申请了一个大小为n的int类型数组，其他代码都没用占用更多空间，所以空间复杂度为O(n)。
+常见的空间复杂度O(1),O(n),O($n^2$)，像O(logn),O(nlogn)这样的对数阶复杂度都用不到。</p>
+
+<h4 id="小结">小结</h4>
+
+<p><img src="/img/hugo/2019/复杂度分析(上).resources/02787842-02FE-482A-96A7-C95F3C205FC0.png" alt="9ab83d88690de341e36a77e796ed35a1" />
+越高阶的复杂度算法，执行效率越低。几乎所有的数据结构和算法的复杂度都跑不出这几个。</p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/07/17/complexity/">http://www.fdgggy.com/2019/07/17/complexity/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a></li>
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95">算法</a></li>
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a></li>
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">空间复杂度</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/17/complexity/" title="复杂度分析(上)">复杂度分析(上)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/16/socket/" title="Linux 源码解析网络编程--socket,bind">Linux 源码解析网络编程--socket,bind</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/16/listen/" title="Linux 源码解析网络编程-listen">Linux 源码解析网络编程-listen</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/15/io_model/" title="Linux 源码解析网络编程-I/O模型详解">Linux 源码解析网络编程-I/O模型详解</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/12/reconnect/" title="移动端断线重连方案">移动端断线重连方案</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="http://www.fdgggy.com">niep的博客 By niep</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>
