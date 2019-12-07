@@ -10,6 +10,9 @@ disablePathToLower = true
 hasCJKLanguage = true
 summaryLength = 140
 
+[icp]
+  id = "粤ICP备19085397号"
+  
 [author]
   name = "niep"
 

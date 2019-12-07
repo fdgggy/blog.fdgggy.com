@@ -91,10 +91,35 @@
                         </div>
                         
                         
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#数据结构与算法">数据结构与算法</a></li>
+<li><a href="#重点">重点</a></li>
+<li><a href="#为什么需要时间-空间复杂度分析">为什么需要时间，空间复杂度分析</a></li>
+<li><a href="#大o复杂度表示法">大O复杂度表示法</a></li>
+<li><a href="#时间复杂度分析">时间复杂度分析</a></li>
+<li><a href="#常见的时间复杂度实例分析">常见的时间复杂度实例分析</a></li>
+<li><a href="#空间复杂度分析">空间复杂度分析</a></li>
+<li><a href="#小结">小结</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
                         <div class="post-content">
                             
-
-<p>[TOC]</p>
 
 <h4 id="数据结构与算法">数据结构与算法</h4>
 
@@ -244,11 +269,8 @@ T(n)=O(f(n)*g(n))=O(n*n)=O(n^2)
 
 <h4 id="常见的时间复杂度实例分析">常见的时间复杂度实例分析</h4>
 
-<p><img src="/img/hugo/2019/复杂度分析(上).resources/283D4ABE-54F6-4050-86D2-26FD37602D19.png" alt="ccf973f92bf16c863387c2d44694b90a" /></p>
-
-<ul>
-<li>O(1)</li>
-</ul>
+<p><img src="/img/hugo/2019/复杂度分析(上).resources/283D4ABE-54F6-4050-86D2-26FD37602D19.png" alt="ccf973f92bf16c863387c2d44694b90a" />
+* O(1)</p>
 
 <pre><code class="language-c">int i,j = 8;
 int sum = i + j;
@@ -290,7 +312,9 @@ while (i &lt;= n) {
 <p>结论：O(${log_3{n}}$)</p>
 
 <p>最终：不管是以2为底，还是3为底，把所有对数阶的时间复杂度都标记为O($log{n}$)<br />
-如果一段代码的时间复杂度是O($log{n}$)，循环执行n次，则时间复杂度就是O(n$log{n}$)了。如归并排序，快速排序。</p>
+原因：对数之间可以互相转换。$log_3{n}$=$log_3{2}$*$log_2{n}$,因为$log_3{2}$是一个常量，大O标记复杂度时可以忽略系数，则$log_3{n}$=$log_2{n}$， 所以对数阶时间复杂度表示方法里，忽略对数底，统一表示为O($logn$)。</p>
+
+<p>如果一段代码的时间复杂度是O($log{n}$)，循环执行n次，则时间复杂度就是O(n$log{n}$)了。如归并排序，快速排序。</p>
 
 <ul>
 <li>O(m+n),O(m*n)</li>
@@ -505,7 +529,7 @@ while (i &lt;= n) {
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="http://www.fdgggy.com">niep的博客 By niep</a>.
+        &copy; 2019 <a href="http://www.fdgggy.com">niep的博客 By niep (粤ICP备19085397号)</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         
