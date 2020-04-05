@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>操作系统引论 | niep的博客</title>
+    <meta property="og:title" content="操作系统引论 - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-10-13T12:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-10-13T12:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[操作系统引论]">
+    <meta name="description" content="操作系统引论">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/10/13/yinlun/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com/">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于golang、skynet、unity3d、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">操作系统引论</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年10月13日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#操作系统目标">操作系统目标</a>
+<ul>
+<li><a href="#系统资源">系统资源</a></li>
+<li><a href="#1-提高系统资源利用率和吞吐量">1.提高系统资源利用率和吞吐量</a></li>
+<li><a href="#2-更方便使用计算机硬件资源">2.更方便使用计算机硬件资源</a></li>
+<li><a href="#3-可扩充性的适应硬件-体系结构及应用发展">3.可扩充性的适应硬件，体系结构及应用发展</a></li>
+<li><a href="#4-方便应用程序移植和互操作">4.方便应用程序移植和互操作</a></li>
+</ul></li>
+<li><a href="#操作系统作用">操作系统作用</a>
+<ul>
+<li><a href="#os作为用户与计算机硬件系统间的接口">OS作为用户与计算机硬件系统间的接口</a></li>
+<li><a href="#os作为计算机系统资源的管理者">OS作为计算机系统资源的管理者</a></li>
+<li><a href="#os实现了对计算机资源的抽象">OS实现了对计算机资源的抽象</a></li>
+</ul></li>
+<li><a href="#操作系统发展">操作系统发展</a>
+<ul>
+<li><a href="#无操作系统">无操作系统</a></li>
+<li><a href="#单道批处理系统">单道批处理系统</a></li>
+<li><a href="#多道批处理系统">多道批处理系统</a>
+<ul>
+<li><a href="#特点">特点</a></li>
+</ul></li>
+<li><a href="#分时系统">分时系统</a></li>
+<li><a href="#实时系统">实时系统</a>
+<ul>
+<li><a href="#需要解决的问题">需要解决的问题</a></li>
+</ul></li>
+<li><a href="#微机操作系统">微机操作系统</a></li>
+</ul></li>
+<li><a href="#操作系统的基本特性">操作系统的基本特性</a>
+<ul>
+<li><a href="#并发性">并发性</a>
+<ul>
+<li><a href="#并行">并行</a></li>
+<li><a href="#并发-concurrence">并发(Concurrence)</a></li>
+<li><a href="#引入进程">引入进程</a></li>
+<li><a href="#引入线程">引入线程</a></li>
+</ul></li>
+<li><a href="#共享性">共享性</a>
+<ul>
+<li><a href="#互斥共享方式">互斥共享方式</a></li>
+<li><a href="#同时访问方式">同时访问方式</a></li>
+</ul></li>
+<li><a href="#虚拟技术">虚拟技术</a></li>
+<li><a href="#异步性">异步性</a></li>
+</ul></li>
+<li><a href="#操作系统的主要功能">操作系统的主要功能</a>
+<ul>
+<li><a href="#处理机管理功能">处理机管理功能</a>
+<ul>
+<li><a href="#进程控制">进程控制</a></li>
+<li><a href="#进程同步">进程同步</a></li>
+<li><a href="#进程通信">进程通信</a></li>
+<li><a href="#调度">调度</a></li>
+<li><a href="#作业调度">作业调度</a></li>
+<li><a href="#进程调度">进程调度</a></li>
+</ul></li>
+<li><a href="#存储器管理功能">存储器管理功能</a>
+<ul>
+<li><a href="#内存分配">内存分配</a></li>
+<li><a href="#内存保护">内存保护</a></li>
+<li><a href="#地址映射">地址映射</a></li>
+<li><a href="#内存扩充">内存扩充</a></li>
+</ul></li>
+<li><a href="#设备管理功能">设备管理功能</a></li>
+<li><a href="#文件管理功能">文件管理功能</a></li>
+<li><a href="#操作系统与用户之间的接口">操作系统与用户之间的接口</a>
+<ul>
+<li><a href="#用户接口">用户接口</a></li>
+<li><a href="#程序接口">程序接口</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            
+
+<h3 id="概述">概述</h3>
+
+<p>计算机系统由硬件和软件组成。从用户角度，OS是用户与计算机硬件系统间的接口。从资源管理角度，OS是计算机系统资源管理者。OS实现对计算机资源的抽象，隐藏了操作细节，更方便的使用机器。</p>
+
+<h3 id="操作系统目标">操作系统目标</h3>
+
+<h4 id="系统资源">系统资源</h4>
+
+<ul>
+<li>处理器</li>
+<li>存储器</li>
+<li>I/O设备</li>
+</ul>
+
+<h4 id="1-提高系统资源利用率和吞吐量">1.提高系统资源利用率和吞吐量</h4>
+
+<p>未配置OS的计算机系统中，CPU，内存，外存，I/O设备各种资源得不到充分利用。配置OS后，能使各种资源能充分利用。</p>
+
+<h4 id="2-更方便使用计算机硬件资源">2.更方便使用计算机硬件资源</h4>
+
+<p>硬件只能识别0，1机器码，要运行用户软件需要用机器语言编写软件，配置OS后，可以方便的使用计算机。</p>
+
+<h4 id="3-可扩充性的适应硬件-体系结构及应用发展">3.可扩充性的适应硬件，体系结构及应用发展</h4>
+
+<p>方便的增加新的功能和模块，并能修改老的功能和模块</p>
+
+<h4 id="4-方便应用程序移植和互操作">4.方便应用程序移植和互操作</h4>
+
+<h3 id="操作系统作用">操作系统作用</h3>
+
+<h4 id="os作为用户与计算机硬件系统间的接口">OS作为用户与计算机硬件系统间的接口</h4>
+
+<p>用户在OS帮助下能方便，快捷，安全，可靠的操作硬件和运行自己的程序。
+<img src="/img/hugo/2019/操作系统引论.resources/03D55EA7-789A-4EC9-9E3A-EB30F3FC3D34.png" alt="fb64b62d70d28cc323e65dd7027f2ddc" /></p>
+
+<h4 id="os作为计算机系统资源的管理者">OS作为计算机系统资源的管理者</h4>
+
+<ul>
+<li>处理机管理，用于分配和控制处理机</li>
+<li>存储器管理，负责内存的分配和回收</li>
+<li>I/O设备管理，负责I/O设备的分配与操作</li>
+</ul>
+
+<h4 id="os实现了对计算机资源的抽象">OS实现了对计算机资源的抽象</h4>
+
+<p><img src="/img/hugo/2019/操作系统引论.resources/54AD8FDD-0AC7-4150-B68F-584F7FCCFFD7.png" alt="4d40eb83991f5cb8bd8ce6b8c8ccc84a" />
+在裸机上铺设的I/O软件隐藏了对I/O设备操作的细节，用户能更方便的操作硬件</p>
+
+<h3 id="操作系统发展">操作系统发展</h3>
+
+<h4 id="无操作系统">无操作系统</h4>
+
+<h4 id="单道批处理系统">单道批处理系统</h4>
+
+<ul>
+<li>由系统中的监督程序将磁带上的第一个作业装入内存，并把控制权交给作业。</li>
+<li>作业处理完成，又把控制权交给监督程序，再把第二个作业调入内存，直到磁带上的所有作业全部完成。</li>
+<li>由于系统对作业的处理都是成批进行的，且内存中始终值保持一道作业，称此系统为单道批处理系统.<br /></li>
+</ul>
+
+<h4 id="多道批处理系统">多道批处理系统</h4>
+
+<p>单道批处理系统中，内存中仅有一道作业，无法充分利用系统中的所有资源，系统性能较差。</p>
+
+<ul>
+<li>用户提交的作业预先存放在外存排成一个后备队列</li>
+<li>作业调度程序按一定算法从后备队列中选择若干作业调入内存，让他们共享CPU和其他资源</li>
+<li>缓和了CPU和I/O设备速度不匹配的矛盾</li>
+</ul>
+
+<h5 id="特点">特点</h5>
+
+<p><img src="/img/hugo/2019/操作系统引论.resources/63510A79-7DAE-4A73-98C9-C19FD469365F.png" alt="2624ab7a759600821e6afa01c28f4bb9" /></p>
+
+<ul>
+<li>提高CPU利用率
+当内存仅有一道程序时，该程序发出I/O操作后，CPU空闲，必须在I/O完成后CPU才继续运行。内存中有多个程序时，当1个作业因I/O暂停运行时，系统可调度另一个程序运行，保持CPU处于忙碌状态</li>
+<li>提高内存和I/O设备利用率</li>
+<li>增加系统吞吐量.<br /></li>
+</ul>
+
+<h4 id="分时系统">分时系统</h4>
+
+<p>一台主机上连接了多个带有显示器和键盘的中断，同时允许多个用户登录，操作计算机。系统按分时原则为每个用户服务，实际上每个用户作业轮流运行一个时间片。</p>
+
+<h4 id="实时系统">实时系统</h4>
+
+<p>系统能及时响应外部事件，规定事件内完成事件处理，并控制实时任务协调一致运行</p>
+
+<h5 id="需要解决的问题">需要解决的问题</h5>
+
+<ul>
+<li>处理机管理问题,如何分配多道程序共享CPU</li>
+<li>内存管理问题，独立空间</li>
+<li>I/O设备管理</li>
+<li>文件管理</li>
+<li>作业管理</li>
+</ul>
+
+<h4 id="微机操作系统">微机操作系统</h4>
+
+<ul>
+<li>单用户单任务</li>
+<li>单用户多任务</li>
+<li>多用户多任务</li>
+</ul>
+
+<h3 id="操作系统的基本特性">操作系统的基本特性</h3>
+
+<h4 id="并发性">并发性</h4>
+
+<h5 id="并行">并行</h5>
+
+<p>两个或多个事件同一时刻发生</p>
+
+<h5 id="并发-concurrence">并发(Concurrence)</h5>
+
+<p>两个或多个事件在一段时间内同时发生。但在单处理系统中，每一时刻仅能有一道程序执行，这些程序只能是分时交替执行。在多处理机中，这些程序被分配到多个处理机上，实现并行执行。</p>
+
+<h5 id="引入进程">引入进程</h5>
+
+<p>操作系统中引入进程的目的就是为了使多个程序能并发执行。进程是指在系统中能独立运行并作为系统资源分配的基本单位，它是由一组机器指令，数据和堆栈组成的一个能独立运行的活动实体。</p>
+
+<h5 id="引入线程">引入线程</h5>
+
+<p>在引入线程的OS中，进程作为分配资源(cpu,存储空间，I/O设备等)的基本单位，线程作为独立运行和独立调度的基本单位。</p>
+
+<h4 id="共享性">共享性</h4>
+
+<p>系统中的资源可供内存中多个并发执行的进程(线程)共享。</p>
+
+<h5 id="互斥共享方式">互斥共享方式</h5>
+
+<p>当进程A提出访问某资源时，如果空闲，系统便分配给A使用。此后若再有其他进程也要访问这个资源(A未用完),则必须等待。
+把一段时间内只允许一个进程访问的资源称为临界资源。计算机系统中的大多数物理设备，以及软件中所使用的的栈，变量，表格等都属于临界资源。</p>
+
+<h5 id="同时访问方式">同时访问方式</h5>
+
+<p>磁盘设备。在单处理机环境下进程可能是交替对该资源进行访问。</p>
+
+<h4 id="虚拟技术">虚拟技术</h4>
+
+<p>操作系统中的虚拟指通过某种技术把一个物理实体变为若干个逻辑上的对应物。前者是实的，后者是虚的。</p>
+
+<h4 id="异步性">异步性</h4>
+
+<p>进程的执行通常都不是一次性完成的，而是走走停停的方式运行，内存中每个进程以不可预知的速度向前推进，即进程的异步性，只要操作系统由完善进程同步机制，且运行环境相同，作业多次运行都会获得完全相同的结果。</p>
+
+<h3 id="操作系统的主要功能">操作系统的主要功能</h3>
+
+<p><img src="/img/hugo/2019/操作系统引论.resources/0B0BC52C-FAB6-4BCD-AE6B-02DDFD8A5FEC.png" alt="795c555eb972eaebf746e295fb0ad928" /></p>
+
+<h4 id="处理机管理功能">处理机管理功能</h4>
+
+<h5 id="进程控制">进程控制</h5>
+
+<p>为作业创建进程，撤销已结束的进程，控制进程在运行过程中的状态转换。</p>
+
+<h5 id="进程同步">进程同步</h5>
+
+<h5 id="进程通信">进程通信</h5>
+
+<p>为提高应用程序效率，在系统中尽力多个进程，并为每个进程建立若干线程，由这些进程(线程)相互合作去完成一个共同任务。而这些进程或线程之间又需要交换信息。</p>
+
+<h5 id="调度">调度</h5>
+
+<h5 id="作业调度">作业调度</h5>
+
+<p>从后备队列中按照一定算法，选择出若干个作业，为他们分配运行所需的资源，调入内存后为他们建立进程，使得他们成为处理机的就绪进程，并按照一定算法插入就绪队列</p>
+
+<h5 id="进程调度">进程调度</h5>
+
+<p>多线程OS中，是把线程作为独立运行和分配处理机的基本单位，每次调度时，是从就绪线程队列中选出一个线程，把处理机分配给它。</p>
+
+<h4 id="存储器管理功能">存储器管理功能</h4>
+
+<h5 id="内存分配">内存分配</h5>
+
+<p>为每道程序分配内存空间，提高存储器的利用率，减少不可用的内存空间。允许正在运行的程序申请附加的内存空间，以适应程序和数据动态增长的需要。同时具备回收的功能。</p>
+
+<h5 id="内存保护">内存保护</h5>
+
+<p>确保每道程序都只运行在自己的内存空间内，彼此互不干扰。不允许用户程序访问OS程序和数据。</p>
+
+<h5 id="地址映射">地址映射</h5>
+
+<p>应用程序编译链接后的可执行程序的地址都是0开始，程序中的其他地址都是相对于起始地址计算的。多个程序运行时不可能都是从0开始转入内存，存储器管理必须提供地址映射功能，以将地址空间中的逻辑地址转换为内存空间中的物理地址，需在硬件的支持下完成。</p>
+
+<h5 id="内存扩充">内存扩充</h5>
+
+<p>若发现内存中无足够空间装入需要调入的程序和数据时，系统能将内存中的一部分暂时不用的程序和数据调至磁盘，腾出内存空间。</p>
+
+<h4 id="设备管理功能">设备管理功能</h4>
+
+<p>管理计算机系统中所有外围设备</p>
+
+<h4 id="文件管理功能">文件管理功能</h4>
+
+<h4 id="操作系统与用户之间的接口">操作系统与用户之间的接口</h4>
+
+<h5 id="用户接口">用户接口</h5>
+
+<p>提供给用户使用，用户可通过该接口取得OS的服务</p>
+
+<h5 id="程序接口">程序接口</h5>
+
+<p>提供给程序员在编程时使用的接口，且是用户程序取得OS服务的唯一途径。由一组系统调用组成。</p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com/">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/10/13/yinlun/">http://www.fdgggy.com/2019/10/13/yinlun/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA">操作系统引论</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/17/complexity/" title="复杂度分析(上)">复杂度分析(上)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/16/socket/" title="Linux 源码解析网络编程--socket,bind">Linux 源码解析网络编程--socket,bind</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/16/listen/" title="Linux 源码解析网络编程-listen">Linux 源码解析网络编程-listen</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/15/io_model/" title="Linux 源码解析网络编程-I/O模型详解">Linux 源码解析网络编程-I/O模型详解</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/07/12/reconnect/" title="移动端断线重连方案">移动端断线重连方案</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

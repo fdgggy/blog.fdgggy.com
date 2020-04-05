@@ -6,10 +6,46 @@
     <description>Recent content in Posts on niep的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 17 Jul 2019 12:05:08 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 17 Oct 2019 12:05:08 +0800</lastBuildDate>
     
 	<atom:link href="http://www.fdgggy.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>内存管理</title>
+      <link>http://www.fdgggy.com/2019/10/17/mem/</link>
+      <pubDate>Thu, 17 Oct 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/10/17/mem/</guid>
+      <description>进程编译过程 一个c程序，编译时分为三步：预处理，编译，汇编，链接 预处理，展开头文件、宏替换，去掉注释，条件编译等 gcc -E hello.c -o hello.i 编译，使用编译器将预处理文件hello.i编译成汇编文件hello.s gcc -S hello.i -o hello.s 汇编,使用汇编器将hello.s编译成目标文件hello.o,二进制文件 gcc -c hello.s</description>
+    </item>
+    
+    <item>
+      <title>处理机调度</title>
+      <link>http://www.fdgggy.com/2019/10/16/schedual/</link>
+      <pubDate>Wed, 16 Oct 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/10/16/schedual/</guid>
+      <description>在多道程序环境下，主存中有着多个进程，其数目往往多余处理机数目。系统按照某种算法，动态的把处理机分配给就绪队列中的一个进程，使之执行。 高级调度，作业调度 根据某种算法，把外存上处于后备队列中的作业调入内存。 作业步骤 1.编译作业步，通过编译程序对源程序进行编译，产生若干个目标程序段 2</description>
+    </item>
+    
+    <item>
+      <title>进程管理</title>
+      <link>http://www.fdgggy.com/2019/10/15/process/</link>
+      <pubDate>Tue, 15 Oct 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/10/15/process/</guid>
+      <description>进程特征 结构 程序是一组有序指令的集合，静态的存放于某种介质。为使程序能独立运行，配置一进程控制块PCB(Process Control Block)，由程序段，数据段和PCB三部分便构成了进程实体。所谓创建进程，实质上是创建进程实体中的PCB，撤销进程，实质上是撤销进程的PCB 动态性 进程的实质是</description>
+    </item>
+    
+    <item>
+      <title>操作系统引论</title>
+      <link>http://www.fdgggy.com/2019/10/13/yinlun/</link>
+      <pubDate>Sun, 13 Oct 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/10/13/yinlun/</guid>
+      <description>概述 计算机系统由硬件和软件组成。从用户角度，OS是用户与计算机硬件系统间的接口。从资源管理角度，OS是计算机系统资源管理者。OS实现对计算机资源的抽象，隐藏了操作细节，更方便的使用机器。 操作系统目标 系统资源 处理器 存储器 I/O设备 1.提高系统资源利用率和吞吐量 未配置OS的计算机系统</description>
+    </item>
     
     <item>
       <title>复杂度分析(上)</title>

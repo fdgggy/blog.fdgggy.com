@@ -36,7 +36,7 @@
             <div class="site-name ">
                 
                     <h1>
-                        <a id="logo" href="http://www.fdgggy.com">
+                        <a id="logo" href="http://www.fdgggy.com/">
                             niep的博客
                         </a>
                     </h1>
@@ -45,7 +45,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="current" href="http://www.fdgggy.com">首页</a>
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
                     
                     <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
                     
@@ -64,6 +64,98 @@
 
             <div class="col-8" id="main">
                 <div class="res-cons">
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理" >内存管理</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年10月17日
+                            </date>
+                            
+                            <div class="post-meta">
+                                <span>|</span>
+                                
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                进程编译过程 一个c程序，编译时分为三步：预处理，编译，汇编，链接 预处理，展开头文件、宏替换，去掉注释，条件编译等 gcc -E hello.c -o hello.i 编译，使用编译器将预处理文件hello.i编译成汇编文件hello.s gcc -S hello.i -o hello.s 汇编,使用汇编器将hello.s编译成目标文件hello.o,二进制文件 gcc -c hello.s……
+                            </div>
+                            <p class="readmore"><a href="http://www.fdgggy.com/2019/10/17/mem/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度" >处理机调度</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年10月16日
+                            </date>
+                            
+                            <div class="post-meta">
+                                <span>|</span>
+                                
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                在多道程序环境下，主存中有着多个进程，其数目往往多余处理机数目。系统按照某种算法，动态的把处理机分配给就绪队列中的一个进程，使之执行。 高级调度，作业调度 根据某种算法，把外存上处于后备队列中的作业调入内存。 作业步骤 1.编译作业步，通过编译程序对源程序进行编译，产生若干个目标程序段 2……
+                            </div>
+                            <p class="readmore"><a href="http://www.fdgggy.com/2019/10/16/schedual/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理" >进程管理</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年10月15日
+                            </date>
+                            
+                            <div class="post-meta">
+                                <span>|</span>
+                                
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                进程特征 结构 程序是一组有序指令的集合，静态的存放于某种介质。为使程序能独立运行，配置一进程控制块PCB(Process Control Block)，由程序段，数据段和PCB三部分便构成了进程实体。所谓创建进程，实质上是创建进程实体中的PCB，撤销进程，实质上是撤销进程的PCB 动态性 进程的实质是……
+                            </div>
+                            <p class="readmore"><a href="http://www.fdgggy.com/2019/10/15/process/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论" >操作系统引论</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年10月13日
+                            </date>
+                            
+                            <div class="post-meta">
+                                <span>|</span>
+                                
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a></span>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                概述 计算机系统由硬件和软件组成。从用户角度，OS是用户与计算机硬件系统间的接口。从资源管理角度，OS是计算机系统资源管理者。OS实现对计算机资源的抽象，隐藏了操作细节，更方便的使用机器。 操作系统目标 系统资源 处理器 存储器 I/O设备 1.提高系统资源利用率和吞吐量 未配置OS的计算机系统……
+                            </div>
+                            <p class="readmore"><a href="http://www.fdgggy.com/2019/10/13/yinlun/">阅读全文</a></p>
+                        </article>
                     
                         <article class="post">
                             <header>
@@ -196,25 +288,29 @@
                             <p class="readmore"><a href="http://www.fdgggy.com/about/">阅读全文</a></p>
                         </article>
                     
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="http://www.fdgggy.com/archives/" title="归档" >归档</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年7月11日
-                            </date>
-                            
-                            <div class="post-content">
-                                ……
-                            </div>
-                            <p class="readmore"><a href="http://www.fdgggy.com/archives/">阅读全文</a></p>
-                        </article>
-                    
                     
 
 
+
+<ol class="page-navigator">
+    
+
+    
+    <li  class="current">
+        <a href="http://www.fdgggy.com/">1</a>
+    </li>
+    
+    <li >
+        <a href="http://www.fdgggy.com/page/2/">2</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="http://www.fdgggy.com/page/2/">下一页</a>
+    </li>
+    
+</ol>
 
 
 
@@ -226,7 +322,7 @@
         <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
       <button type="submit" class="submit icon-search"></button>
 </form>
     </section>
@@ -234,6 +330,22 @@
     <section class="widget">
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
     
     <li>
         <a href="http://www.fdgggy.com/2019/07/17/complexity/" title="复杂度分析(上)">复杂度分析(上)</a>
@@ -269,6 +381,10 @@
     </li>
     
     <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
         <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
     </li>
     
@@ -301,7 +417,13 @@
     
     <a href="http://www.fdgggy.com/tags/unity/">unity</a>
     
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
     <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
     
     <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
     
@@ -314,6 +436,12 @@
     <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
     
     <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
     
     <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
     
@@ -336,7 +464,7 @@
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         
