@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>资源加载 on niep的博客</title>
+    <link>http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/</link>
+    <description>Recent content in 资源加载 on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 10 Sep 2019 12:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>详解unity各平台资源加载</title>
+      <link>http://www.fdgggy.com/2019/09/16/resource/</link>
+      <pubDate>Tue, 10 Sep 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/09/16/resource/</guid>
+      <description>相信大家在基于Unity3d开发游戏时会对各种平台资源加载方式会有疑惑，至少我曾经就有这样的疑惑，这里分享出来。 一、Resources目录加载 Resources.Load() 只能加载Resources目录的资源，可以有多个子Resources目录。 加载资源方式可以是同步或异步。 Resources目录是Unit</description>
+    </item>
+    
+  </channel>
+</rss>

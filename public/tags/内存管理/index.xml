@@ -20,5 +20,14 @@
       <description>进程编译过程 一个c程序，编译时分为三步：预处理，编译，汇编，链接 预处理，展开头文件、宏替换，去掉注释，条件编译等 gcc -E hello.c -o hello.i 编译，使用编译器将预处理文件hello.i编译成汇编文件hello.s gcc -S hello.i -o hello.s 汇编,使用汇编器将hello.s编译成目标文件hello.o,二进制文件 gcc -c hello.s</description>
     </item>
     
+    <item>
+      <title>unity内存管理及优化</title>
+      <link>http://www.fdgggy.com/2019/09/10/memmgr/</link>
+      <pubDate>Tue, 10 Sep 2019 18:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/09/10/memmgr/</guid>
+      <description>unity为什么能跨平台 参考：https://segmentfault.com/a/1190000004355051 MONO CLI 通用语言基础架构，是一个技术规范，定义了与语言无关的跨体系结构的运行环境。开发者只需要按照规范内各种高级语言来开发软件，即可实现跨平台。规范中包括CIL，可读性</description>
+    </item>
+    
   </channel>
 </rss>

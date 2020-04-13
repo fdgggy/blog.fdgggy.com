@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>unity3d资源管理 | niep的博客</title>
+    <meta property="og:title" content="unity3d资源管理 - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-09-18T12:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-09-18T12:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[资源管理 AB包]">
+    <meta name="description" content="unity3d资源管理">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/09/18/absystem/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com/">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于手游，沉浸于unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">unity3d资源管理</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年9月18日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/unity3d">unity3d</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li><a href="#一-assetbundle原理">一、Assetbundle原理</a>
+<ul>
+<li><a href="#简介">简介</a></li>
+<li><a href="#内部格式">内部格式</a></li>
+</ul></li>
+<li><a href="#二-assetbundle导出">二、Assetbundle导出</a>
+<ul>
+<li><a href="#编辑器导出">编辑器导出</a></li>
+<li><a href="#脚本导出">脚本导出</a></li>
+<li><a href="#mainfest">mainfest</a></li>
+<li><a href="#开发模式-发布模式">开发模式，发布模式</a></li>
+</ul></li>
+<li><a href="#三-assetbundle依赖-加载">三、Assetbundle依赖&amp;加载</a>
+<ul>
+<li>
+<ul>
+<li><a href="#依赖">依赖</a>
+<ul>
+<li><a href="#打包时收集依赖">打包时收集依赖</a></li>
+</ul></li>
+<li><a href="#加载">加载</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#四-assetbundle内存">四、Assetbundle内存</a></li>
+<li><a href="#五-ab释放策略">五、AB释放策略</a>
+<ul>
+<li><a href="#目的">目的</a></li>
+<li><a href="#手段">手段</a></li>
+<li><a href="#策略">策略</a></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            
+
+<h1 id="一-assetbundle原理">一、Assetbundle原理</h1>
+
+<h2 id="简介">简介</h2>
+
+<p>参考：<a href="https://blog.csdn.net/lodypig/article/category/6315960">https://blog.csdn.net/lodypig/article/category/6315960</a>
+<a href="https://zhuanlan.zhihu.com/p/25683486">https://zhuanlan.zhihu.com/p/25683486</a>
+<a href="https://www.jianshu.com/p/2a7c4a48aaee">https://www.jianshu.com/p/2a7c4a48aaee</a>
+<a href="http://blog.shuiguzi.com/categories/UnityKB/">http://blog.shuiguzi.com/categories/UnityKB/</a>
+<a href="https://blog.csdn.net/swj524152416/article/details/73348296">https://blog.csdn.net/swj524152416/article/details/73348296</a>
+<a href="http://blog.shuiguzi.com/2017/04/18/AssetBundle_usage_pattern_1/">http://blog.shuiguzi.com/2017/04/18/AssetBundle_usage_pattern_1/</a>
+<a href="https://blog.csdn.net/qq_33337811/article/details/73849019">https://blog.csdn.net/qq_33337811/article/details/73849019</a></p>
+
+<p>UWA 上面很多AB方面的干货
+<a href="https://blog.uwa4d.com/archives/ABTheory.html">https://blog.uwa4d.com/archives/ABTheory.html</a></p>
+
+<p>内存优化：<a href="https://blog.csdn.net/gtofei013/article/details/60580857">https://blog.csdn.net/gtofei013/article/details/60580857</a></p>
+
+<p>源码：ABsystem: <a href="https://github.com/tangzx/ABSystem">https://github.com/tangzx/ABSystem</a></p>
+
+<p>KEngine:<a href="https://github.com/mr-kelly/KEngine">https://github.com/mr-kelly/KEngine</a></p>
+
+<p>unity资源包，可以把自定义的游戏对象预制件或者资源以二进制形式保存在ab文件中。支持的格式:模型，纹理，音频，场景等，推荐方式为将关联的内容制作成prefab，将整个prefab导出到AssetBundle，Unity会收集该prefab使用的关联文件，将其一并打入AssetBundle文件，并保留prefab中资源和脚本相互关联。
+<img src="/img/hugo/2019/Unity3d资源管理.resources/877833F6-8B31-42FE-A54F-3BEDDF0FEDBA.png" alt="ce1fdde848174259878e38905bab1cfd" /></p>
+
+<h2 id="内部格式">内部格式</h2>
+
+<p><img src="/img/hugo/2019/Unity3d资源管理.resources/15464F92-1DFA-4A93-9CD1-123C8BB14BDB.png" alt="c77b73c7b30879d51686d9f8c474a290" /></p>
+
+<p><img src="/img/hugo/2019/Unity3d资源管理.resources/62315657-2B9C-44E3-BAF1-CC7221C9A651.png" alt="3e19969e3d959ca549de7c6e2dd581a7" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/9A9584E1-7BEA-4D9E-9718-5DF084E5EFA5.png" alt="3d91ebdb77daab8a05c6d9df826cc9b7" /></p>
+
+<p>LZMA就是ZIP格式，相比于LZ4压缩格式，占用空间小，Unity解析慢</p>
+
+<h1 id="二-assetbundle导出">二、Assetbundle导出</h1>
+
+<h2 id="编辑器导出">编辑器导出</h2>
+
+<p>参考：
+<a href="https://blog.csdn.net/lodypig/article/details/51871510">https://blog.csdn.net/lodypig/article/details/51871510</a></p>
+
+<h2 id="脚本导出">脚本导出</h2>
+
+<p>1.遍历指定目录下的预制件，把共有依赖资源单独记录，每一个AB记录其实是一个AssetBundleBuild结构体，最后统一打包</p>
+
+<pre><code class="language-csharp">    //  AssetBundle building map 实体.
+    public struct AssetBundleBuild       
+    {
+        public string assetBundleName;         // AssetBundle 名称.
+        public string assetBundleVariant;      // AssetBundle 变体.     
+        public string[] assetNames;            // 该AssetBundle包含的资源路径列表。
+    }
+</code></pre>
+
+<p>2.打包相关
+把第一步统计的待打包向用如下API打包</p>
+
+<pre><code class="language-csharp">    //  AssetBundle building map 实体.
+    public struct AssetBundleBuild       
+    {
+        public string assetBundleName;         // AssetBundle 名称.
+        public string assetBundleVariant;      // AssetBundle 变体.     
+        public string[] assetNames;            // 该AssetBundle包含的资源路径列表。
+    }
+
+</code></pre>
+
+<p>3.打包选项
+<img src="/img/hugo/2019/Unity3d资源管理.resources/5A994F59-08A1-4220-8A8C-78E0AABB6BE5.png" alt="2abfa3b717abee61d55bda2e8e6f24cc" />
+注意：热更资源(lua/Asset)下载接口时有个传版本参数的接口，可以自己在打包的时候做版本管理，或者直接加入打包选项DeterministicAssetBundle，通过资源HashID来做版本号，不然会出现热更失败的现象，切记。</p>
+
+<p>4.BuildTarget<br />
+4.1 AB包在不同平台不兼容，需要分别导出，打包时设置BuildTarget即可.<br />
+4.2 在windows下设置Unity的平台，可选Android或IOS，打包成相应资源，再打成APK，IOS需要导出成XCode工程，苹果包很麻烦.<br />
+4.3 注意：切成Android平台在编辑器下加载的AB资源会出现材质丢失现象，那是因为打出来的AB包针对Android格式，不针对Windows平台</p>
+
+<h2 id="mainfest">mainfest</h2>
+
+<p>1.每生成一个AB包，就会生成一个.mainfest文件，记录这个AB包的相关信息，包括包含资源和依赖资源.<br />
+2.同时在输出AB包的目录下会生成一个同名.mainfest文件，这个清单文件记录所有AB包的信息，在加载AB包时会用到</p>
+
+<h2 id="开发模式-发布模式">开发模式，发布模式</h2>
+
+<p>问题：如果用AB作为热更方案，那在开发阶段每次调试都要打成AB包，再测试？疯了。达到的目的是，开发时直接加载预制件，发布时加载AB包。<br />
+解决：<br />
+1.第一种方案是把预制件放入Resource目录，开发时调用同步加载接口，发布时把Resource目录改名，导出AB，再打成apk。略显麻烦。<br />
+2.第二种方案是预制件不放入Resource目录，每次修改了资源，比如增加了一个UI预制件，通过脚本扫描一边，作用是记录每个资源的对应关系</p>
+
+<pre><code class="language-json">&quot;player1_atk_pugong1_Sf_E&quot;:{
+&quot;abName&quot;:&quot;player1_atk_pugong1_sf_e.unity3d&quot;, 
+&quot;md5&quot;:&quot;9a89798fca5cc782f42b9ed2051fcbe6&quot;, 
+&quot;path&quot;:&quot;Assets/EffecRes/Prefab/rolePrefab/player1/player1_atk_pugong1_Sf_E.prefab&quot;
+}
+</code></pre>
+
+<p>有了这个配置文件，在编辑模式下用ResourceMgr加载时可以通过如下方式同步加载，移动端时通过AB加载的API加载。</p>
+
+<pre><code class="language-csharp">if (m_pf2Asset.ContainsKey(prefabName))
+            {
+                PrefabToAbData preabdata = m_pf2Asset[prefabName];
+                Object prefab = UnityEditor.AssetDatabase.LoadAssetAtPath&lt;Object&gt;(preabdata.path);
+
+                if (callBack != null)
+                {
+                    callBack(prefab);
+                    callBack = null;
+                }
+
+            }
+            else
+            {
+                DebugLog.LogError(&quot;点击-&gt;生成预制件索引,prefabName get null:&quot; + prefabName);
+            }
+</code></pre>
+
+<h1 id="三-assetbundle依赖-加载">三、Assetbundle依赖&amp;加载</h1>
+
+<h3 id="依赖">依赖</h3>
+
+<p>Unity 巨坑之一，稍不注意，就会留下难忘的踩坑记忆</p>
+
+<h4 id="打包时收集依赖">打包时收集依赖</h4>
+
+<p>Unity5默认开启自动收集依赖，打包选项为BuildAssetBundleOptions.CollectDependencies，比如一个prefab引用一张图片，unity5会自动将该图片也一起打包，避免遗漏，可是，如果多个预制件依赖这个图片，那么这个图片就存在2份，造成资源冗余。</p>
+
+<p>解决：打包时将公用资源，比如图片，材质，单独打成AB包，引用到的AB依赖这个新包</p>
+
+<h3 id="加载">加载</h3>
+
+<p>依赖关系：A-&gt;B-C.<br />
+1.加载顺序，先加载C，再加载B，再加载A，加载依赖时只需要AB对象在内存即可，不需要加载里面具体的资源.<br />
+2.依赖查找
+缓存总的清单文件，使用manifest.GetAllDependencies（）来获取具体依赖AB包.<br />
+3.Shader依赖加载
+<img src="/img/hugo/2019/Unity3d资源管理.resources/24E7BC12-3C06-48FC-A45F-F3629BA13B1B.png" alt="aace09adf769f48391c45ca68a3caede" />
+4.加载方式.<br />
+    4.1 特殊路径.<br />
+    Resources可以在工程根目录，也可以在自目录，目录下所有资源将打包进游戏存放的archive中。所有资源会被压缩，只读不可写。使用Resource.Load()加载.<br />
+    StreamingAssetPath必须在Asset根目录下，也会打包进游戏，不压缩，只读不可写
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/0DBE23B8-6C5E-4895-875D-A7DB5E28C05C.png" alt="a68b6025f54f63d545f6b43efb3d2276" />
+    可以通过www加载，必须加上文件协议，安卓下必须用www加载，因为在安卓下时在jar包内file:///+streamingPath+&ldquo;/&rdquo;+path<br />
+    persistentDataPath持久化目录，可读可写
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/8054F2EA-52FB-48BB-AD63-681554AA2F73.png" alt="481e2831f44986a025b9ad5185883161" /><br />
+    DataPath应用程序目录，即Asset
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/05E2F96F-7077-4F58-9556-7B86CAE8056C.png" alt="e1b349dcb41e74d840cf1dba66a8a703" /><br />
+    4.2 同步加载
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/1A13B9AA-8B1B-470C-8DB1-0088916FF657.png" alt="9fca897cc1172e8894914d999781dcfa" /><br />
+    4.3 异步加载
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/C747C21F-5C3D-4014-B6EA-8FAD948056C8.png" alt="e894decf0e46bb1a3c430268319d5fda" /><br />
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/00D2D494-49BD-4298-B780-5D64C8C09FB5.png" alt="043bfdf27c8c5a2fdbc0542553da78b2" />
+    4.4 AB内的Asset加载
+    <img src="/img/hugo/2019/Unity3d资源管理.resources/B657AA3C-9C42-49C0-AEDC-5F95A12D4208.png" alt="8122fb8e8b19f483a7eeac0d444caf71" />
+    注意：一般流程是把Streaming目录下的zip包拷贝到持久化目录，然后调用异步加载接口，用www加载时都要统一加前缀， file:///</p>
+
+<h1 id="四-assetbundle内存">四、Assetbundle内存</h1>
+
+<p><img src="/img/hugo/2019/Unity3d资源管理.resources/70C8E1A8-1BB0-47BF-9297-F8C766949ABF.png" alt="40ae8a54c3dcdb33a8d0bdafb3e65b66" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/9262A457-3619-4CF6-A6DC-F605F69301AF.png" alt="3f9a61ee222831c6e913b2a09febc506" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/212D563E-92A7-495B-B7BC-1028F40DB5B2.png" alt="fd7317e861d07714c6f3e6e894c7d1e8" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/010819A8-9679-45AB-BC90-8CC8F987AFF0.png" alt="955f0a5cc5d805eaa6f27314576c90ef" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/32311259-37BF-4C55-8F2C-512261DD0D51.png" alt="77d64be7a1669c8cae99531b7008a5ae" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/A0D0166E-FD2D-4931-91DF-54EBE42F29C6.png" alt="3cc073dd9697377fb4529414f61be89f" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/C84DB0E7-8CBD-4F1F-9CE2-3BBB9F970EBC.png" alt="02944bfa70b4e8e0ea58a4285347ddc8" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/0CED6B66-F2DA-4E16-BE1E-3A219D4A9DCF.png" alt="68116a9482fdf2ebe52473595cf3a5f8" />
+<img src="/img/hugo/2019/Unity3d资源管理.resources/DD617C25-0754-4F7D-AF30-995CA9BC911A.png" alt="c75f5c94ff83ddf24f70d1654897ab3e" /></p>
+
+<h1 id="五-ab释放策略">五、AB释放策略</h1>
+
+<p>参考：
+<a href="http://blog.shuiguzi.com/2017/04/18/AssetBundle_usage_pattern_1/">http://blog.shuiguzi.com/2017/04/18/AssetBundle_usage_pattern_1/</a>
+对官方ab包讲解的翻译</p>
+
+<h2 id="目的">目的</h2>
+
+<p>手动管理内存，清空不需要的内存</p>
+
+<h2 id="手段">手段</h2>
+
+<p>经过上述文章介绍后得出一个基本结论，AB.unload(true)卸载AB镜像和加载出来的Asset，不包括通过Asset实例化得对象，AB.unload(false)只卸载AB镜像。</p>
+
+<h2 id="策略">策略</h2>
+
+<p>1.AB加载好并LoadAsset后，就可以AB.Unload(false)，采用延迟卸载，防止过段时间再次加载，延迟卸载还有个原因就是不能打断unity的异步加载，如果切换场景时，打断未加载完成的操作，则unity会崩溃，unity的bug,所以采用延迟卸载，自己来管理。<br />
+2.引用计数，A-&gt;B-&gt;C 加载A时需先加载B,加载B时先加载C,最后加载A,如果B被卸载，则A加载失败，固每一个AB当引用计数为0时才卸载.<br />
+3.轮询检测要卸载的资源，切换场景并不手动处理引用计数，只删掉每个AB包外部加载请求，因为是异步回调，又在释放对象池，具体看代码。<br />
+4.AB在内存可以通过profile查看，内存取样，NOT_SAVED查看，手机通过wifi连接查看，因为最终AB都会卸载，实例化后引用计数减1，小于1时就加入卸载到期时间，间隔时间轮询到时引用计数为0且过期就会卸载，同时会把所有引用资源的引用计数-1，引用减为0的时候也会加入卸载时间。如果发现有未卸载的AB则为代码bug,场景AB和lua AB除外，这一点会引起bug,深刻的领悟。<br />
+5.切换场景时，unity会去清空所有未引用的对象，只有ab需要自己unload，所以不用Resource.unloadunuse，如果使用了，unity偶尔还会引起丢失引用的报错，且这个函数开销也很大，慎用。</p>
+
+<p>资源管理花费了很多精力来理解，涉及unity内存管理，代码已撸完，可以去<a href="https://github.com/fdgggy/supershoot">https://github.com/fdgggy/supershoot</a> 项目查看资源管理模块, 查看了很多大佬写的文章，希望对未来有帮助.</p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com/">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/09/18/absystem/">http://www.fdgggy.com/2019/09/18/absystem/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86">资源管理</a></li>
+                                
+                                <li><a href="http://www.fdgggy.com/tags/AB%E5%8C%85">AB包</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/chuanshuceng/" title="传输层">传输层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wangluoceng/" title="网络层">网络层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/lianluceng/" title="数据链路层">数据链路层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wuliceng/" title="物理层">物理层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/18/absystem/" title="unity3d资源管理">unity3d资源管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/16/uiscaler/" title="unity3d的ui适配方案">unity3d的ui适配方案</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/unity3d/">unity3d(5)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络(4)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/AB%E5%8C%85/">AB包</a>
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/ugui/">ugui</a>
+    
+    <a href="http://www.fdgggy.com/tags/ui%E9%80%82%E9%85%8D/">ui适配</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity3d/">unity3d</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%98%E5%8C%96/">优化</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">数据链路层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/">物理层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/">资源加载</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">资源管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

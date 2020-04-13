@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据链路层 on niep的博客</title>
+    <link>http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</link>
+    <description>Recent content in 数据链路层 on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 17 Nov 2019 16:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>数据链路层</title>
+      <link>http://www.fdgggy.com/2019/11/17/lianluceng/</link>
+      <pubDate>Sun, 17 Nov 2019 16:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/11/17/lianluceng/</guid>
+      <description>概述 物理层上方的一种能正确且稳定的传输比特流的结构 ，能生成通往相邻设备的逻辑传输路径(数据链路)，并检查其中的传输错误并修复 数据链路层将来自网络层的数据包封装成帧后交给物理层 1、为网络层IP模块发送和接收IP数据报 2、为网络层ARP模块发送ARP请求和接收ARP应答 数据链路层接收</description>
+    </item>
+    
+  </channel>
+</rss>

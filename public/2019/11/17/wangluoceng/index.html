@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>网络层 | niep的博客</title>
+    <meta property="og:title" content="网络层 - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-11-17T20:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-11-17T20:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[网络层]">
+    <meta name="description" content="计算机网络网络层">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/11/17/wangluoceng/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com/">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于手游，沉浸于unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">网络层</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年11月17日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a>
+<ul>
+<li><a href="#ip协议">IP协议</a>
+<ul>
+<li><a href="#ip地址">IP地址</a>
+<ul>
+<li><a href="#ip地址分类">IP地址分类</a></li>
+<li><a href="#子网与子网掩码">子网与子网掩码</a></li>
+<li><a href="#2种广播">2种广播</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#路由控制">路由控制</a>
+<ul>
+<li><a href="#mac地址和ip地址共同协作">MAC地址和IP地址共同协作</a></li>
+</ul></li>
+<li><a href="#ip报文分割">IP报文分割</a></li>
+<li><a href="#ipv6">IPv6</a></li>
+<li><a href="#ip协议相关协议">IP协议相关协议</a>
+<ul>
+<li><a href="#dns">DNS</a></li>
+<li><a href="#arp">ARP</a></li>
+<li><a href="#parp">PARP</a></li>
+<li><a href="#icmp">ICMP</a>
+<ul>
+<li><a href="#主要的icmp消息">主要的ICMP消息</a></li>
+</ul></li>
+<li><a href="#dhcp">DHCP</a></li>
+<li><a href="#nat">NAT</a></li>
+<li><a href="#ip隧道">IP隧道</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="概述">概述</h2>
+
+<p>网络层将不同的网段中的节点连接起来，实现点对点的通信。数据链路层只是将同一网段中的节点连接在一起。网络层负责将数据链路层中形成的网段拼接起来，使不同网段中不相邻节点彼此通信。</p>
+
+<h3 id="ip协议">IP协议</h3>
+
+<p>网际协议，属于OSI参考模型从下往上的第三层，网络层。这一层主要由IP和ICMP两个协议组成，主要作用就是在复杂的网络环境中将数据包发给最终的目标地址。
+<img src="/img/hugo/2019/网络层.resources/45A6051D-BF2F-43E9-AE30-974A4047E89A.png" alt="c4f9bd76fc5a37fc157e61c958236eef" /></p>
+
+<ul>
+<li>主机 配有IP地址，但不进行路由控制的设备叫作主机。</li>
+<li>路由器 配有IP地址，又进行路由控制的设备叫作路由器。</li>
+
+<li><p>节点 主机和路由器的统称。</p>
+
+<h4 id="ip地址">IP地址</h4></li>
+
+<li><p>用于标识计算机网络中的主机和路由器，MAC地址是用于标识同一数据链路中不同计算机。TCP/IP通信中所有主机或路由器必须设定IP地址。</p></li>
+
+<li><p>不同的数据链路用同一种形式的IP地址，如以太网，无线局域网的IP都一样。</p></li>
+
+<li><p>IPv4地址由32位正整数表示，每8位为1组，分成4组，每组以.隔开，再将每组二进制数转换成十进制数</p></li>
+
+<li><p>每一台主机上的每一块网卡(NIC)都要设置IP地址。通常一块NIC只设置一个IP地址，也可以设置成多个。一台路由器配置多个网卡，可以设置多个IP地址。
+<img src="/img/hugo/2019/网络层.resources/804C42A7-8D17-42E7-8A55-02B8603A07B8.png" alt="706a7dd0636b209ef9b7b300d53e9665" /></p></li>
+
+<li><p>由网络地址和主机地址组成，保证唯一性。网络地址保证每个网段地址不重复，同一个网段内的主机不重复。</p></li>
+
+<li><p>192.168.1.1 /24  /24表示从第1位开始到多少位数据网络地址，192.168.1之前的都是IP的网络地址。路由器是通过IP地址的网络地址进行转发的。</p>
+
+<h5 id="ip地址分类">IP地址分类</h5>
+
+<p>根据IP地址中从第1位到第4位的比特列对其网络地址和主机地址区分。
+<img src="/img/hugo/2019/网络层.resources/BC99A8DB-D574-485C-B439-EDAD1B32CCFB.png" alt="024bbf634a89e1d689c53a1648a087d6" />
+在分配主机地址时，不可以全部是0或者全部是1，全部是0表示对应的网络地址或IP地址不可获知的情况下使用。全部是1的主机地址通常作为广播地址。所以，可用主机地址数为2^n-2</p></li>
+</ul>
+
+<h5 id="子网与子网掩码">子网与子网掩码</h5>
+
+<ul>
+<li>架构B类IP网络时，理论上一个链路内允许6万多台计算机连接，实际操作中不会在同一个链路上连接这么多的机器。造成A类和B类IP地址的浪费。</li>
+<li>将A,B,C分类中的主机地址部分用作子网地址，将原网络分成多个物理网络的一种机制。</li>
+<li>引入子网后，一个IP地址包括，IP地址本身和表示网络部分的子网掩码。子网掩码中的1代表网段地址，0代表主机地址。
+<img src="/img/hugo/2019/网络层.resources/479C3975-73E9-4A90-835F-B71D75DE195B.png" alt="60205fd24cbdd4d40cae64b6e4121982" /></li>
+<li>节省IP地址，便于管理。使用子网掩码划分子网后，子网内可以通信，跨子网不能通信，子网间通过路由器通信。</li>
+<li>网络地址指主机部分的IP地址位都是0的IP地址，代表了网络本身。如192.168.1.1的子网掩码255.255.255.0，则192.168.1.0就是网络地址。</li>
+</ul>
+
+<h5 id="2种广播">2种广播</h5>
+
+<ul>
+<li>本地广播 在当前网络中的广播叫作本地广播。
+<img src="/img/hugo/2019/网络层.resources/831854FF-7750-4279-A549-94A03CBA9936.png" alt="1f32498d408ec054e6bb7b62f79daa0c" /></li>
+<li>直接广播 在不同网络之间的广播叫作直接广播。
+<img src="/img/hugo/2019/网络层.resources/B5330689-88AB-483F-957E-F085A97227F1.png" alt="b636c8b165dd2d01400b33cdb1e7cc51" /></li>
+</ul>
+
+<h3 id="路由控制">路由控制</h3>
+
+<p>路由器和L3交换机是根据网络层L3中的IP地址信息转发数据包的，通过路由表对数据包的转发目的地进行切换的过程叫作路由选择。
+网络层IP数据包转发流程
+<img src="/img/hugo/2019/网络层.resources/D82E9380-D647-415D-8F26-1D6C029B48B5.png" alt="a418ea510c29f63123874cc040a2c380" /></p>
+
+<ul>
+<li>默认路由一般标记为0.0.0.0/0 或default。</li>
+<li>环回地址是在同一台计算机上的程序之间进行网络通信使用的默认地址。计算机使用127.0.0.1或localhost作为环回地址，数据包不会流向网络。</li>
+<li>最后一步是用ARP去查询节点B的MAC地址，然后将数据包发送给节点B</li>
+
+<li><p>TODO 静态路由，动态路由，路由协议</p>
+
+<h4 id="mac地址和ip地址共同协作">MAC地址和IP地址共同协作</h4>
+
+<p><img src="/img/hugo/2019/网络层.resources/257CD172-FCFA-4D36-84A8-F094F7F97913.png" alt="82cba936c424d9814cec578afe78734b" /></p>
+
+<h3 id="ip报文分割">IP报文分割</h3></li>
+
+<li><p>IP报头
+<img src="/img/hugo/2019/网络层.resources/D288A87C-D7D3-4135-8D9D-3540D4D45DC1.png" alt="8a9fd4a5b481f6fba9a0204ec3c2edec" />
+<img src="/img/hugo/2019/网络层.resources/9BA3E83F-AA3E-49BD-AE47-89E87F746347.png" alt="56cc609b85e667860e2836b37743ac65" />
+<img src="/img/hugo/2019/网络层.resources/55AF03AE-5F6A-4DE0-8685-1F3A80826F97.png" alt="614af5d96987d310b5242e21f895ea46" /></p></li>
+
+<li><p>数据链路层不同，MTU则不同
+<img src="/img/hugo/2019/网络层.resources/03312E66-31CC-4625-87A9-8CF7DDE9CC92.png" alt="48cc61d63711b1f231b881083b479335" /></p></li>
+
+<li><p>IP报文分片与重组
+以太网默认MTU是1500字节，如果传输大于1500字节的数据，不能通过一个帧发送，路由器会将此IP数据报分片发送。数据报重组只能在目标主机上进行。
+<img src="/img/hugo/2019/网络层.resources/8CBD9440-ADCD-4C52-A4F2-EE364E8D4442.png" alt="0beaf1c9412a272ffd364aa770ebd315" /></p></li>
+</ul>
+
+<h3 id="ipv6">IPv6</h3>
+
+<p>IP version 6 为了根本解决IPv4地址耗尽的问题而被标准化的网际协议。IPv4的地址长度为4个8位字节，IPv6的地址长度是原来的4倍，一般写成8个16位字节。
+* 组成举例
+以每16比特为一组，每组用冒号隔开。
+<img src="/img/hugo/2019/网络层.resources/6F584F66-5776-4272-8782-7BCC425ADABF.png" alt="dbbae7f6034768733187da3124a10389" />
+* 分片
+IPv6分片处理只在发送端主机上进行，路由器不参与分片，减轻路由器的负荷。</p>
+
+<h3 id="ip协议相关协议">IP协议相关协议</h3>
+
+<p>IP旨在让最终目标主机收到数据包，但是这一过程中仅有IP是无法通信的。还需要有能够解析主机名称和MAC地址的功能，以及数据包在发送过程中异常情况处理的功能。IP辅助和扩展规范的协议包括：DNS,ARP,ICMP以及DHCP等协议</p>
+
+<h4 id="dns">DNS</h4>
+
+<p>解析域名</p>
+
+<h4 id="arp">ARP</h4>
+
+<ul>
+<li>地址解析协议，以目标IP地址为线索，定位下一个应该接收数据分包的网络设备对应的MAC地址，如果目标地址不在同一个链路，则通过ARP查找下一跳路由器的MAC地址。</li>
+<li>只使用于IPv4，不能用于IPv6，IPv6用ICMPv6替代ARP。</li>
+<li>ARP 包格式
+<img src="/img/hugo/2019/网络层.resources/F78E584C-4E30-4F2E-A0B7-EB28F2CCF64D.png" alt="552e60e7bc99413aa2058c91af14f8c2" />
+<img src="/img/hugo/2019/网络层.resources/F0BCDFF9-3EE8-4D9C-8208-EFAF59FE7111.png" alt="d1481cbdfa2ed355cf44076f83003b71" />
+共28个字节
+以太网帧类型表示后面数据类型，ARP类型来说，该字段为0x0806
+硬件类型字段表示硬件地址的类型，1表示以太网地址
+协议类型字段表示要映射的协议地址类型，0x0800表示IP地址
+硬件地址长度表示硬件地址长度，以字节为单位，以太网上IP地址的ARP请求或应答，值为6
+协议地址长度表示协议地址长度，以字节为单位，以太网上IP地址的ARP请求或应答，值为4
+操作字段，ARP请求为1，ARP应答为2，RARP请求为3，RARP应答为4.</li>
+<li>在本地arp缓存表，ip&lt;-&gt;mac，不需要每次通信都需要去广播查询目标mac地址。超过一定时间后会清空缓存，win7是10分钟，思科设备是4小时。</li>
+<li>通过命令行可以查询局域网机器mac地址，sudo arping -I eth0 192.168.1.1</li>
+</ul>
+
+<p>sudo arp-scan -l 查询整个局域网内所有IP地址对应的MAC地址。</p>
+
+<h4 id="parp">PARP</h4>
+
+<p>从MAC地址定位IP地址的一种协议。</p>
+
+<h4 id="icmp">ICMP</h4>
+
+<p>理论上属于网络层协议，但实现上是作为传输层协议实现的，因为需要封装在IP报文中进行收发。辅助IP的ICMP,IP包头。
+* 确认IP包是否成功送达目标地址
+* 通知在发送过程中IP包被丢弃的具体原因
+* 诊断测试网络是否正常，设置是否有误
+<img src="/img/hugo/2019/网络层.resources/F8E0F60A-B2CB-434F-B70C-E4884D80B33E.png" alt="15ee318d7d2ee7b6ccd438b9b869c5f8" /></p>
+
+<h5 id="主要的icmp消息">主要的ICMP消息</h5>
+
+<ul>
+<li>ICMP目标不可达消息</li>
+<li>ICMP重定向消息
+如果路由器发现发送端主机使用了次优路径发送数据，会返回一个ICMP重定向的消息给发送主机，包括最合适的路由信息和源数据。
+<img src="/img/hugo/2019/网络层.resources/BD70B0F1-3CE8-49CA-9BFA-3CC0F05C4A19.png" alt="7b78c9736bdef722cfe1adaea9b21075" /></li>
+<li>ICMP超时消息 IP包中有一个字段TTL(Time To Live 生存周期)，它的值每经过一次路由器就会减1，直到为0时该IP包被丢弃，路由器会发送一个ICMP超时消息给发送端主机，并丢弃该包。
+<img src="/img/hugo/2019/网络层.resources/C5285CA7-049F-4A3F-8A17-0F42D0555949.png" alt="f6db1ed37875e2e2e769a419dc8641b3" />
+traceroute 充分利用ICMP超时消息。TODO 后面再了解。</li>
+<li>ICMP 回送消息
+判断所发送的数据包是否已经成功到达对端的一种消息。ping命令就是利用这个消息实现的。
+<img src="/img/hugo/2019/网络层.resources/2AC9B5D3-8BBE-4728-B830-C9E45B420989.png" alt="fe2e44971515699598c9d0d81f8c16f9" /></li>
+
+<li><p>ICMP报文
+所有的ICMP报文前4个字节都是一样，剩下的其他字节不同。类型字段可以有15个不同的值，以描述特定类型的ICMP报文。代码字段用来进一步描述不同的条件。
+<img src="/img/hugo/2019/网络层.resources/C0EC9944-2184-4C3F-B23B-AA5BD97C5B97.png" alt="a088f4ced38923dc669ba5009e65c0d8" />
+<img src="/img/hugo/2019/网络层.resources/0E650E19-C228-4B33-932E-78D1A3A1F841.png" alt="b7cde522981873934959369f0f8997c1" />
+ping(源于声呐定位操作) 是常用测试另一台主机是否可达的程序，发送一份ICMP回显请求报文给目标主机，并等待返回ICMP回显应答。</p>
+
+<h4 id="dhcp">DHCP</h4>
+
+<p>即插即用自动设置IP地址，同一管理IP地址分配。
+<img src="/img/hugo/2019/网络层.resources/5F013862-6029-404A-9568-9058F93F76A8.png" alt="b64294f38ece9766b2416f5081eb7c85" /></p></li>
+</ul>
+
+<h4 id="nat">NAT</h4>
+
+<p>在私有地址在连接互联网时使用全局IP地址。
+<img src="/img/hugo/2019/网络层.resources/74350113-F176-4D11-9D28-5C4D80063B5E.png" alt="feefbdf9e8f474dbf8155d7afc326e25" /></p>
+
+<h4 id="ip隧道">IP隧道</h4>
+
+<p>网络层的首部后面继续追加网络层首部的通信方法叫作IP隧道。
+<img src="/img/hugo/2019/网络层.resources/DDA935E6-0EFF-4BC7-8B07-3780771372CE.png" alt="a5c2b472770e193b50d31e3100ce0b49" />
+<img src="/img/hugo/2019/网络层.resources/8C8E4453-E35E-4B50-921E-2C70981AB683.png" alt="60c7180dff9797e5e14bf456207a2923" />
+<img src="/img/hugo/2019/网络层.resources/AE6373FC-D9EC-4A32-AD42-83265A4494FA.png" alt="7aa9e4f3d95d045304d5494950ff1ad4" /></p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com/">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/11/17/wangluoceng/">http://www.fdgggy.com/2019/11/17/wangluoceng/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9C%E5%B1%82">网络层</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/chuanshuceng/" title="传输层">传输层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wangluoceng/" title="网络层">网络层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/lianluceng/" title="数据链路层">数据链路层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wuliceng/" title="物理层">物理层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/18/absystem/" title="unity3d资源管理">unity3d资源管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/16/uiscaler/" title="unity3d的ui适配方案">unity3d的ui适配方案</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/unity3d/">unity3d(5)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络(4)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/AB%E5%8C%85/">AB包</a>
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/ugui/">ugui</a>
+    
+    <a href="http://www.fdgggy.com/tags/ui%E9%80%82%E9%85%8D/">ui适配</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity3d/">unity3d</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%98%E5%8C%96/">优化</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">数据链路层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/">物理层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/">资源加载</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">资源管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

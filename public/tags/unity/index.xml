@@ -6,10 +6,19 @@
     <description>Recent content in unity on niep的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 12 Jul 2019 12:05:08 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 10 Sep 2019 12:05:08 +0800</lastBuildDate>
     
 	<atom:link href="http://www.fdgggy.com/tags/unity/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>详解unity各平台资源加载</title>
+      <link>http://www.fdgggy.com/2019/09/16/resource/</link>
+      <pubDate>Tue, 10 Sep 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/09/16/resource/</guid>
+      <description>相信大家在基于Unity3d开发游戏时会对各种平台资源加载方式会有疑惑，至少我曾经就有这样的疑惑，这里分享出来。 一、Resources目录加载 Resources.Load() 只能加载Resources目录的资源，可以有多个子Resources目录。 加载资源方式可以是同步或异步。 Resources目录是Unit</description>
+    </item>
     
     <item>
       <title>移动端断线重连方案</title>

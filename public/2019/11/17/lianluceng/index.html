@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>数据链路层 | niep的博客</title>
+    <meta property="og:title" content="数据链路层 - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-11-17T16:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-11-17T16:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[数据链路层]">
+    <meta name="description" content="计算机网络数据链路层">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/11/17/lianluceng/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com/">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于手游，沉浸于unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">数据链路层</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年11月17日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#概述">概述</a></li>
+<li><a href="#包-帧-数据报-段-消息">包，帧，数据报，段，消息</a></li>
+<li><a href="#mac地址">MAC地址</a></li>
+<li><a href="#数据链路举例">数据链路举例</a></li>
+<li><a href="#以太网">以太网</a></li>
+<li><a href="#以太网分类">以太网分类</a></li>
+<li><a href="#以太网帧格式">以太网帧格式</a></li>
+<li><a href="#数据传播类型">数据传播类型</a></li>
+<li><a href="#l2交换机">L2交换机</a>
+<ul>
+<li><a href="#工作原理">工作原理</a></li>
+</ul></li>
+<li><a href="#arp协议">ARP协议</a>
+<ul>
+<li><a href="#arp工作原理">ARP工作原理</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            
+
+<h3 id="概述">概述</h3>
+
+<ul>
+<li>物理层上方的一种能正确且稳定的传输比特流的结构
+，能生成通往相邻设备的逻辑传输路径(数据链路)，并检查其中的传输错误并修复</li>
+<li>数据链路层将来自网络层的数据包封装成帧后交给物理层
+1、为网络层IP模块发送和接收IP数据报
+2、为网络层ARP模块发送ARP请求和接收ARP应答</li>
+<li>数据链路层接收来自物理层比特流做一个和成帧相反的处理，交给网络层
+<img src="/img/hugo/2019/数据链路层.resources/8F543A9B-37CC-4455-9C3B-BA81F302D719.png" alt="46208c8793a1fc09e5b1b50b2d4dcd81" /></li>
+</ul>
+
+<h3 id="包-帧-数据报-段-消息">包，帧，数据报，段，消息</h3>
+
+<p>都是用来描述数据的单位，包是全能型术语，帧表示数据链路层中包的单位。数据报是IP网络层和UDP包的单位。段表示TCP数据流中的数据。消息是应用层协议中的数据单位。
+数据链路层会对从网络层的数据报封装处理，这种封装处理叫作成帧，封装后的数据叫作帧。</p>
+
+<h3 id="mac地址">MAC地址</h3>
+
+<ul>
+<li>用于识别数据链路中的互联节点。以太网，FDDI，ATM无线LAN，蓝牙等设备都根据IEEE802.3(美国电气和电子工程协会，制定局域网标准化相关规范的组织)规范使用MAC地址。</li>
+
+<li><p>MAC地址长48比特，6个字节的16进制数表示。
+<img src="/img/hugo/2019/数据链路层.resources/19F74DA4-6A15-4CB6-BAAC-83CDFED4CA0D.png" alt="94e79160b7018bf4a600b274a4a6e350" />
+MAC地址的3-24位表示厂商识别码，一个厂商可以有多个，25-48位是厂商内部识别码，因此，可以保证全世界不会有相同的MAC地址的网卡。(MAC地址并不总是唯一的，只要不是同一个数据链路就不会有问题，如一台主机上启动多个虚拟机，由虚拟软件设定MAC地址给多个虚拟网卡，这就很难保证所生成的MAC地址是独一无二的了)</p>
+
+<h3 id="数据链路举例">数据链路举例</h3></li>
+
+<li><p>按照一种链路协议连接2个或多个数据站点的电信设施叫作数据链路。包括物理线路和控制数据传输的通信协议。</p></li>
+
+<li><p>ATM 面向连接的一种数据链路，通信之前一定要设置通信线路，与传统电话相似
+<img src="/img/hugo/2019/数据链路层.resources/068EFA8E-5D37-4E2D-9983-B0DD25FF2A70.png" alt="9381b703d6b2acca26f5000dbbe4c2ec" /></p></li>
+
+<li><p>FDDI 分布式光线数据接口。采用令牌环的访问方式，在网络拥堵的情况下极容易导致网络收敛。
+<img src="/img/hugo/2019/数据链路层.resources/BDFCBC46-0B67-4BC0-87F6-0FDE17B01DD5.png" alt="5de715b550e3bf1c0bee3808ddcd0f3b" /></p></li>
+
+<li><p>ppp 点对点，1对1连接计算机的协议。属于纯粹的数据链路层，与物理层没任何关系。2台机器通信还需要物理层支持。
+<img src="/img/hugo/2019/数据链路层.resources/39556C70-F9A9-41BC-91B8-DB1DE325FAC6.png" alt="6e92000c73da079143fbaba6f06bc34b" />
+ppp可以使用电话线，专线，ATM线路等。</p></li>
+
+<li><p>无线通信
+使用电磁波，红外线，激光灯方式进行传播数据。无线通信的种类
+<img src="/img/hugo/2019/数据链路层.resources/90F5EC7C-FA28-41F0-A96D-5BB77D23A2BB.png" alt="8d2d24e58aa54ebcf638d86821db9f84" />
+<img src="/img/hugo/2019/数据链路层.resources/C391FCA7-D3ED-429D-83D4-AFBB72735B43.png" alt="f3e80cd9ccaba12b1be7edd89263edda" /></p></li>
+</ul>
+
+<h3 id="以太网">以太网</h3>
+
+<ul>
+<li>概念
+IEEE802.3标准制定了以太网的技术标准，规定了包括物理层的连线通信，电子信号和介质访问层协议的内容。分为两类：1.经典以太网，运行速度3-10Mbps 2.交换式以太网，使用交换机连接不同的计算机，可运行在100，1000和10000Mbps高速率的快速以太网，千兆以太网和万兆以太网上。</li>
+</ul>
+
+<p>在很多数据链路中最著名的，使用最广泛的就是以太网(Ethernet)，规范简单，易于NIC(网卡)及驱动程序的实现。是数据链路层的一种规范方式，取代了其他局域网技术如令牌环，FDDI等。</p>
+
+<ul>
+<li>共享介质型。
+<img src="/img/hugo/2019/数据链路层.resources/1373D6AD-87F1-4C03-A7A7-5D95789980DD.png" alt="448268cf37194823b9e20b184f74bbd7" />
+共享介质型网络指多个设备共享一个通信介质的一种网络，设备之间使用同一个载波信道进行发送和接收，同时只能有一个设备占用。两种介质访问控制方式.</li>
+</ul>
+
+<p>一、争用方式 争夺获取数据传输的权利，也叫CSMA(载波监听多路访问)，网络中各个站点先到先得的方式占用信道发送数据，如果多个站同时发送帧，则会发生冲突现象，导致网络拥堵与性能下降
+<img src="/img/hugo/2019/数据链路层.resources/80A0914E-3BDA-4489-89C8-EFFEA4E19A72.png" alt="ae8d9d226d3d36d331f7faf0b7f57bbc" />
+改良CSMA的另一种方式CSMA/CD，工作原理：
+1.如果载波信道上没有数据，则任何站都可以发送数据
+2.检查是否发生冲突，一旦发送冲突，放弃发送数据，立即释放载波信道
+3.放弃发送以后，随机延时一段时间，再重新争用介质，重新发送帧。
+<img src="/img/hugo/2019/数据链路层.resources/64C8A4B4-BE4D-402A-9634-F729986DC1FE.png" alt="33b1831decf01d21223faff701870c4b" />.</p>
+
+<p>二、令牌传递
+只有获得令牌的站才能发送数据，一是不会有冲突，二是每个站都有通过平等循环获得令牌的机会。缺点是在网络不拥堵的情况下数据链路的利用率达不到100%。
+<img src="/img/hugo/2019/数据链路层.resources/2F0E306A-FEA2-4E31-8433-2A6E4E096930.png" alt="2ad2a0a9083cf9c541a5b692affa4abe" /></p>
+
+<ul>
+<li><p>非共享介质网络
+网络中每个站直连交换机，由交换机负责转发数据帧，实现全双工通信。发送端和接收端不共享通信介质。
+<img src="/img/hugo/2019/数据链路层.resources/C5C07289-095E-47D5-9E63-9F2217A9D5D5.png" alt="06b133f78e7218f346210cd950473b67" />
+现在互联设备都采用终端和交换机之间独占电缆的方式实现以太网通信。
+<img src="/img/hugo/2019/数据链路层.resources/619F1687-2B6C-43A7-8E6D-83022A9CC688.png" alt="7a1f17c7eba4b93fd25bc777c40cf9ee" /></p>
+
+<h3 id="以太网分类">以太网分类</h3>
+
+<p>以太网因通信电缆的不同和通信速度的诧异，有很多不同的以太网类型。在传输速度相同而传输电缆不同的情况下，可以连接中继器或集线器中转，而在传输速度不同的情况下，必须采用网桥，交换集线器或路由器来变更速度。
+<img src="/img/hugo/2019/数据链路层.resources/3AC13C8D-2D0A-43B7-B7C9-C677376FCE27.png" alt="e8efa642cf288fc2ae6051ff7fb40528" />
+<img src="/img/hugo/2019/数据链路层.resources/CCE10846-1112-45DF-8AC7-4FD2D19D7583.png" alt="c11e5061bc42b875e3aefc96f9c06e53" /></p>
+
+<h3 id="以太网帧格式">以太网帧格式</h3></li>
+
+<li><p>RFC 894格式，最常用的格式
+<img src="/img/hugo/2019/数据链路层.resources/84F1D832-2F54-4DE2-AB2B-69692AEEA79A.png" alt="501dc9ad56c35290529a5cb1109863cd" /></p></li>
+</ul>
+
+<p>1、前导码相当于发送帧的信号.<br />
+2、帧头由目的MAC,源MAC和类型组成.<br />
+类型决定数据部分的网络层的数据包使用的协议类型
+<img src="/img/hugo/2019/数据链路层.resources/68F2229B-2C3A-4F31-875C-9364BCCA68B6.png" alt="22654fbd01ae67deeb7fa2b8d50f6555" />
+3、FCS(帧校验序列)用来检查数据正确性。发送方在发送时会对帧头和数据进行CRC(循环冗余检测)校验，并将结果添加到FCS中，接收方接收信息时会再次进行同样的计算，两者结果一致则认为帧是正确的，不一致则会将数据丢弃。</p>
+
+<h3 id="数据传播类型">数据传播类型</h3>
+
+<ul>
+<li>单播 一对一通信，对应某个节点只生成一条数据链路，现代以太网环境中占比很大。Email和互联网通信就是。
+<img src="/img/hugo/2019/数据链路层.resources/38A585FA-CEB9-4E64-A900-B095A7F5598E.png" alt="946016864d9c5b11c5beebc8f8030442" /></li>
+<li>广播 一对多的通信，多是指同一个网络中的所有节点。广播能够波及的范围叫作广播域。目的MAC地址是FF-FF-FF-FF-FF-FF。ARP(地址解析协议)就是一个典型的广播通信。
+<img src="/img/hugo/2019/数据链路层.resources/31E48D86-6684-42F0-9A83-A94251B466C4.png" alt="43bf3cd6e0974fe5a20ab498dd422195" /></li>
+
+<li><p>多播 一对多的通信，多是指特定小组(多播组)中的节点。如果某个节点发送了多播信息，那么这个小组中的所有节点都会收到该信息。多播用于视频发布和证券交易所的应用程序。</p>
+
+<h3 id="l2交换机">L2交换机</h3></li>
+
+<li><p>OO交换机的OO代表OSI参考模型的层，表示它们是根据哪一层的信息去切换转发地址。L2交换机根据数据链路层的信息，就是MAC地址信息对帧进行L2交换。
+<img src="/img/hugo/2019/数据链路层.resources/52C0434D-B0AF-4CE0-9F66-904E3E4B854C.png" alt="9e8125051e8bf695d6729ceeedee690b" /></p></li>
+
+<li><p>作用：1.登记收到的帧的端口和源MAC地址，将来路不明的MAC地址进行泛洪处理，删除不再需要的信息。</p>
+
+<h4 id="工作原理">工作原理</h4>
+
+<p>L2交换机根据内存中的MAC地址表对帧进行交换，MAC地址表由端口和源MAC地址的信息构成。</p></li>
+
+<li><p>节点A将数据包封装成帧并传递给线缆，目的发给节点B。
+<img src="/img/hugo/2019/数据链路层.resources/99A5E6AC-5D0A-4FFF-AFD8-79543F9CF93D.png" alt="42b211afae8448979fe378319d41a1e9" /></p></li>
+
+<li><p>交换机收到帧后，将节点A的端口号和源MAC地址作为新的条目添加到MAC地址表中。MAC地址表一开始是空的，从空表的状态开始学习帧并不断添加新的数据。
+<img src="/img/hugo/2019/数据链路层.resources/C06DE58D-1ECB-4AB2-95F3-1415289B763F.png" alt="f66a758fe2c783fd71500c25f78a7322" /></p></li>
+
+<li><p>交换机并不知道节点B的MAC地址，所以会将帧复制并发送给不与节点A连接的所有端口。把帧同时发送给多个端口的行为叫做泛洪。
+<img src="/img/hugo/2019/数据链路层.resources/91D16EFD-9900-4C42-9F8F-E01CDB7B733F.png" alt="a8755bf8101f08a9a498bda928b64789" /></p></li>
+
+<li><p>节点B收到帧后认为这是发给自己的帧，为了回应A，也会生成一个帧并传递给线缆。节点C和节点D判断出这不是自己的帧然后丢弃。
+<img src="/img/hugo/2019/数据链路层.resources/271D2E76-AC76-4BC2-887A-0CEF69193FE0.png" alt="878c2a63bd84334a399577adc3a601ef" /></p></li>
+
+<li><p>交换机收到帧后，将节点B的端口号和MAC地址登记到MAC地址表中。根据MAC地址表中的登记内容，发给节点A的帧会马上转发到1号端口。MAC地址生成后，节点A和节点B之间的帧转发就不会影响到其他节点，能高效快速的进行通信了。
+<img src="/img/hugo/2019/数据链路层.resources/E4A06BF3-52DE-4B21-A7DF-BBC58F58EF40.png" alt="dd96dc63c9389a4616940a9c7f038a7e" /></p></li>
+
+<li><p>MAC地址表建立后，里面的条目并不是一直保留。
+1.与端口相连的线缆被拔掉时
+2.超过一定时间未收到帧时，思科Catalyst交换机默认时间未300s。
+<img src="/img/hugo/2019/数据链路层.resources/ACC4DB4B-DEAD-4746-BEEE-55FAD17916EE.png" alt="802e3213f0ad7ce2233a2955122e8de6" /></p>
+
+<h3 id="arp协议">ARP协议</h3>
+
+<p>地址解析协议(ARP)用于实现IP地址到网络接口硬件地址的映射。ARP协议在RFC826中定义。
+<img src="/img/hugo/2019/数据链路层.resources/04B19422-AB50-4573-81DD-10570A933733.png" alt="13b33686261a2d526f1933ff9240ecd2" /></p></li>
+</ul>
+
+<h4 id="arp工作原理">ARP工作原理</h4>
+
+<p>数据链路层收到网络层的IP数据包后，因为不知道目标MAC地址，所以并不清楚该如何封装成帧。
+<img src="/img/hugo/2019/数据链路层.resources/2FDC821A-8A3B-445A-A4D2-2320F7CF6F29.png" alt="6960bf8b6e8e8a5dd2be19911b6bcea4" /></p>
+
+<ul>
+<li>先查看IP数据包的目的IP地址，如果是同一网段的节点，就查询该IP地址的MAC地址。如果不是同一网段的节点，就去查询默认网关的MAC地址。</li>
+<li>默认网关(路由器)是通往非本地网段的出口，如果数据包是发给非本地的其他网段而且并不清楚目的IP地址，则直接发给默认网关。
+<img src="/img/hugo/2019/数据链路层.resources/EB83D0EC-2F3D-44A0-844F-55AFF39270E1.png" alt="4de5f3c4463f3439438bd6f301de32df" /></li>
+<li>通过高速缓存查询MAC地址。ARP查询到对方节点MAC地址后，会在ARP表中添加新的条目并将其暂时保存，超过一定时间后则会删除。Windows7默认是10分钟，思科设备默认是4小时。arp -a查看所有ARP高速缓存。</li>
+</ul>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com/">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/11/17/lianluceng/">http://www.fdgggy.com/2019/11/17/lianluceng/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">数据链路层</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/chuanshuceng/" title="传输层">传输层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wangluoceng/" title="网络层">网络层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/lianluceng/" title="数据链路层">数据链路层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wuliceng/" title="物理层">物理层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/18/absystem/" title="unity3d资源管理">unity3d资源管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/16/uiscaler/" title="unity3d的ui适配方案">unity3d的ui适配方案</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/unity3d/">unity3d(5)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络(4)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/AB%E5%8C%85/">AB包</a>
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/ugui/">ugui</a>
+    
+    <a href="http://www.fdgggy.com/tags/ui%E9%80%82%E9%85%8D/">ui适配</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity3d/">unity3d</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%98%E5%8C%96/">优化</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">数据链路层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/">物理层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/">资源加载</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">资源管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

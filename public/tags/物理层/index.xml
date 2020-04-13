@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>物理层 on niep的博客</title>
+    <link>http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/</link>
+    <description>Recent content in 物理层 on niep的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 17 Nov 2019 12:05:08 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>物理层</title>
+      <link>http://www.fdgggy.com/2019/11/17/wuliceng/</link>
+      <pubDate>Sun, 17 Nov 2019 12:05:08 +0800</pubDate>
+      
+      <guid>http://www.fdgggy.com/2019/11/17/wuliceng/</guid>
+      <description>概述 物理层规定了数据在传输媒介(线缆)中的流动规则，并对物理性质做了规定，如线缆材质，连接器形状，pin的接法。 物理层接收由数据链路层发送的由0和1构成的数据帧，并将它们转换为电信号或光信号。 可以把LAN网线看成物理层，无线LAN就把信号理解成物理层。 标准规格 物理层的标准化是和数</description>
+    </item>
+    
+  </channel>
+</rss>
