@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.55.6" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>应用层 | niep的博客</title>
+    <meta property="og:title" content="应用层 - niep的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-11-17T22:05:08&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-11-17T22:05:08&#43;08:00">
+        
+    <meta name="Keywords" content="[应用层]">
+    <meta name="description" content="计算机网络应用层">
+        
+    <meta name="author" content="niep">
+    <meta property="og:url" content="http://www.fdgggy.com/2019/11/17/yingyongceng/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="http://www.fdgggy.com/">
+                        niep的博客
+                    </a>
+                
+                <p class="description">专注于手游，沉浸于unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="http://www.fdgggy.com/">首页</a>
+                    
+                    <a  href="http://www.fdgggy.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="http://www.fdgggy.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">应用层</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年11月17日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="clear">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                                <nav id="TableOfContents">
+<ul>
+<li><a href="#http">HTTP</a>
+<ul>
+<li><a href="#诞生背景">诞生背景</a>
+<ul>
+<li>
+<ul>
+<li><a href="#dns服务">dns服务</a></li>
+<li><a href="#浏览器输入url">浏览器输入Url</a></li>
+<li><a href="#url和uri">URL和URI</a></li>
+<li><a href="#http格式">http格式</a>
+<ul>
+<li><a href="#请求方法">请求方法</a>
+<ul>
+<li><a href="#post传输数据格式">POST传输数据格式</a></li>
+<li><a href="#url编码">url编码</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#持久连接">持久连接</a></li>
+<li><a href="#cookie状态管理">cookie状态管理</a></li>
+<li><a href="#http请求报文及响应报文结构">http请求报文及响应报文结构</a>
+<ul>
+<li><a href="#请求行">请求行</a></li>
+<li><a href="#状态行">状态行</a></li>
+<li><a href="#http报文首部">HTTP报文首部</a>
+<ul>
+<li><a href="#http请求报文">HTTP请求报文</a></li>
+<li><a href="#http响应报文">HTTP响应报文</a></li>
+<li><a href="#http首部字段">HTTP首部字段</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#socks5代理与http代理的区别">socks5代理与http代理的区别</a></li>
+</ul></li>
+<li><a href="#其他应用层协议">其他应用层协议</a>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#mime">MIME</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            
+
+<p><img src="/img/hugo/2019/应用层.resources/B7E46111-74F0-4B8C-B7EC-FBD91BAB9ED1.png" alt="ec5d27e825f7373c2bda30a7bf88b8bf" /></p>
+
+<h1 id="http">HTTP</h1>
+
+<h2 id="诞生背景">诞生背景</h2>
+
+<ul>
+<li>初衷是为知识共享，提供一种能让远隔两地的研究者们共享知识的途径。</li>
+<li>基本理念是借助多文档之间相互关联形成的超文本HyperText，连成可相互参阅的WWW(World Wide Web,万维网)，WWW是Web浏览器当年用来浏览超文本的客户端应用程序的名称，现在用来表示这一系列的集合，简称为web，web应用层协议是超文本传输协议，是web的核心。</li>
+<li>构建技术：1.把SGML(标准通用标记语言)作为页面的文本标记语言的HTML(超文本标记语言) 2.作为文档传递协议的HTTP 3.指定文档所在地址的URL(Uniform Resource Locator 统一资源定位符)</li>
+<li>HTTP/1.0</li>
+<li>HTTP/1.1</li>
+</ul>
+
+<h4 id="dns服务">dns服务</h4>
+
+<p>dns(Domain Name System)提供域名到IP地址之间的解析服务。用户通常使用主机名或域名来访问对方的计算机，而不是直接通过IP地址访问。</p>
+
+<h4 id="浏览器输入url">浏览器输入Url</h4>
+
+<p><img src="/img/hugo/2019/应用层.resources/4479227A-CB9C-414C-98BB-54E1E8B7321C.png" alt="175db0636bfbe2fcbf7980adab58508c" />
+<img src="/img/hugo/2019/应用层.resources/4FD8972C-0C5B-4B28-943C-8BCB6B3CFADD.png" alt="a7bdf04d5e088603d1c9de25cf07efa5" /></p>
+
+<h4 id="url和uri">URL和URI</h4>
+
+<ul>
+<li>URL统一资源定位符，使用浏览器等访问web服务器输入的地址，如<a href="http://qq.com/">http://qq.com/</a></li>
+<li>URI(Uniform Resource Identifier)统一资源标识符。
+URI格式：
+<img src="/img/hugo/2019/应用层.resources/CC98F937-8620-4E1F-A2C0-20393E3BE58B.png" alt="83433a81568243c6b3752de05c7eb910" /></li>
+</ul>
+
+<p>1.协议方案名。某个协议方案(http,ftp等)表示的资源定位标识符。协议方案包括ftp,telnet,file,http等。
+URI举例：
+<img src="/img/hugo/2019/应用层.resources/D9B2886A-9C7F-4B23-8673-8946F4B35AA6.png" alt="5ca1dc86463e70fc1d134eddd0fd5bfe" />
+2.登录信息。指定用户名和密码作为从服务器获取资源时必要的登录信息，此项是可选项。<br />
+3.服务器地址。可以是域名或是IP地址。<br />
+4.服务器端口号。可选项，默认是80.
+5.文件路径。指定服务器上的文件路径来定位特指的资源。<br />
+6.查询字符串。可选项，可通过查询字符串传入任意参数。<br />
+7.片段标识符。可选项。</p>
+
+<ul>
+<li>URI用字符串标识某一互联网资源，而URL标识资源的地点。</li>
+</ul>
+
+<h4 id="http格式">http格式</h4>
+
+<ul>
+<li>请求报文由请求方法，请求URI，协议版本，可选的请求首部字段和内容实体构成。
+<img src="/img/hugo/2019/应用层.resources/D6CA4ACB-9B5B-4952-B37D-F4B0811AB574.png" alt="dcc777e56f2cfe3621354aab5e2e73d3" /></li>
+<li>响应报文由协议版本，状态码，解释状态码的原因短语，可选的响应首部字段以及实体主体构成。
+<img src="/img/hugo/2019/应用层.resources/2C6FBE5A-AC43-49E4-BB61-25A58CAC8849.png" alt="56dbc3367335d500a1e696d541c0a6da" /></li>
+</ul>
+
+<h5 id="请求方法">请求方法</h5>
+
+<ul>
+<li>GET方法用来请求访问已被URI标识的资源，方法名区分大小写。</li>
+
+<li><p>POST方法用来传输实体的主体。虽然用GET方法也可以传输实体的主题，但一般不用GET方法进行传输，而是用POST方法。</p></li>
+
+<li><p>PUT方法用来传输文件。自身不带验证机制，任何人都可以上传文件，存在安全性问题，一般Web网站不适用该方法。</p></li>
+
+<li><p>HEAD方法和GET方法一样，只是不返回报文主体部分。用于确认URI的有效性以及资源更新的日期时间等。</p></li>
+
+<li><p>DELETE方法用来删除文件。</p></li>
+
+<li><p>OPTIONS方法用来查询针对请求URI指定的资源支持的方法。</p></li>
+
+<li><p>TRACE方法是让Web服务器端将之前的请求通信环回给客户端的方法。</p></li>
+
+<li><p>CONNECT方法要求在于代理服务器通信时尽力隧道，实现用隧道协议进行TCP通信，主要使用SSL(Secure Sockets Layer安全套接层)和TLS(Transport Layer Security传输层安全)协议把通信内容加密后经网络隧道传输。
+<img src="/img/hugo/2019/应用层.resources/56DC5131-8F52-4E6E-9D93-2EBBB42B21C3.png" alt="ebf1e904a1743ea1b41cb0d0a1ce4080" />
+<img src="/img/hugo/2019/应用层.resources/9DFA7B1A-AA62-4563-933B-CC5A1789A897.png" alt="9593a0931f0eca73c2db941515ca15c5" /></p>
+
+<h6 id="post传输数据格式">POST传输数据格式</h6>
+
+<p>post提交数据必须放在主题中，但协议并未规定数据使用什么编码。接收端根据请求头中的content-type字段来获知请求中的消息主题是何种编码，再对主体进行解析。<br />
+Content-Type格式：
+Content-Type：type/subtype;parameter<br />
+type:主类型，如text，*代表所有.<br />
+subtype:子类型，如html.<br />
+parameter:可选参数，如charset,boundary等.<br />
+Content-Type:application/json;charset:utf-8;<br />
+常见举例：<br />
+1.Content-Type=application/x-www-form-urlencoded
+最常见的POST提交数据方式，一般用于表单提交。会将参数用key1=val1&amp;key2=val2的格式放入请求实体，如果是中文或特殊字符需要进行URL转码。URL是用来打包表单输入的格式，将key/value参数编码(移除那些不能传送的字符)。
+<img src="/img/hugo/2019/应用层.resources/4FC72FB2-2A12-412B-839F-03C47099F25B.png" alt="2dc7987ee7ed6b9ed79754e6643a0554" /></p></li>
+</ul>
+
+<p>2.Content-Type=application/json；charset=utf-8;
+需要参数本身就是json格式，直接放入请求实体里，接收端会按json格式解析数据。<br />
+3.Content-Type=text/xml；<br />
+4.Content-Type=application/octet-stream 二进制</p>
+
+<h6 id="url编码">url编码</h6>
+
+<p>http参数传输是以&rdquo;key1=value1&amp;key2=value2&rdquo;键值对传输的，服务器收到字符串时会用&amp;分隔每个参数，用=分隔参数值。如果参数值中包含=或者&amp;特殊字符时就需要Url编码。<br />
+url编码只是在特殊字符的各个字节(16进制)前加%即可。如name1=va%26lu%3D，服务器会把%后的字节当成普通字节，不会当成分隔符。<br />
+url编码只允许包含英文，数字，4个特殊字符(-_.~)以及所有保留字符(/?#[]@),用于分隔协议，主机，路径等。其余的需要url编码。<br />
+url编码默认使用ASCII编码，对于unicode字符，使用utf-8编码得到相应的字节，再在每个字节前加%编码。如&rdquo;中文&rdquo;使用utf-8编码得到的字节为0xE4 0xB8 0xAD 0xE6 0x96 0x87,经过URL编码之后得到%E4%B8%AD%E6%96%87</p>
+
+<h4 id="持久连接">持久连接</h4>
+
+<ul>
+<li>http协议的初始版本中，每进行一次http通信就要断开一次TCP连接。随着HTTP的普及，HTML页面中包含大量的图片，在发送访问HTML页面资源的同时，也会请求该HTML页面包含的其他资源，造成无畏的TCP连接建立和断开，增加通信量的开销。</li>
+
+<li><p>HTTP/1.1和一部分HTTP/1.0实现了持久连接(HTTP keep-alive)的方法，只要任意一端没有明确提出断开连接，则保持TCP连接状态。建立1次连接后进行多次请求和响应操作。
+<img src="/img/hugo/2019/应用层.resources/0B438E00-D7CD-438C-8033-0F7F59FA9CB0.png" alt="9317f2a600b5ea0d7dd0827ab8d88cae" /></p>
+
+<h4 id="cookie状态管理">cookie状态管理</h4></li>
+
+<li><p>http是无状态协议，不对之前发生过的请求和响应状态进行持久化管理。应用场景：要求登录认证的Web页面每次跳转新页面时要么再次登录，要么在请求报文中附加参数来管理登录状态。</p></li>
+
+<li><p>Cookie技术通过在请求和响应报文中写入cookie信息来控制客户端的状态。服务端返回的响应报文内的set-cookie首部字段通知客户端保存cookie信息，当下次客户端再请求时，自动在请求报文中加入cookie值。服务端再通过cookie值去检查是哪一个客户端发来的连接请求，对比服务端上的记录，最后得到之前的状态信息。
+<img src="/img/hugo/2019/应用层.resources/FD07ADD5-32A9-4A51-A7F4-1090BE6977DF.png" alt="35ffd50a8bdde0b7c634c1d341459550" />
+<img src="/img/hugo/2019/应用层.resources/371D5D4C-0BF7-4406-926B-8B66F8B918E8.png" alt="d9cb26e7e5e7251f023cfde7f014c9af" />
+<img src="/img/hugo/2019/应用层.resources/B4CE0CD7-CF84-4FB1-8067-E97A41DDFE33.png" alt="d7a0f7eccd071a7a3682022044cb1783" /></p></li>
+</ul>
+
+<h4 id="http请求报文及响应报文结构">http请求报文及响应报文结构</h4>
+
+<p>用于http协议交互的信息称为http报文，由多行数据构成的字符串文本信息构成，分为报文首部和报文主体，由空行(CR+LF)划分。
+<img src="/img/hugo/2019/应用层.resources/3C6FC312-3171-4F21-8973-727FD4EE3106.png" alt="ffce3425adb1b1fbfa82e9a02b5570ed" />
+<img src="/img/hugo/2019/应用层.resources/795F395B-E7BB-4FD7-92CF-853B7BE934AE.png" alt="cc790de927a8b89413a141cafa180392" />
+<img src="/img/hugo/2019/应用层.resources/8927CC33-7DBC-497C-9431-3356BDF1B250.png" alt="e0164d041368078c3f9e7fbdc1502e19" />
+<img src="/img/hugo/2019/应用层.resources/6B9920DC-04E8-43A9-81C3-36DE51C4508A.png" alt="0af581fbdaa059e1e5baafb67d7d3244" /></p>
+
+<h5 id="请求行">请求行</h5>
+
+<p>包含请求的方法，请求URI和HTTP版本</p>
+
+<h5 id="状态行">状态行</h5>
+
+<p>包含表明响应结果的状态码，原因短语和HTTP版本
+状态码 客户端向服务器发送请求时，描述返回的请求结果。
+<img src="/img/hugo/2019/应用层.resources/B442B1BF-0530-4557-B9FB-0C05641C8600.png" alt="6225a2ad7b1ca0312c80cca90e16bca1" /></p>
+
+<ul>
+<li>2xx的响应结果表明请求被正常处理了。<br />
+1.200 0K<br />
+2.204 No Content 服务器成功处理，但响应报文中不含实体的主体不封。<br />
+3.206 Partial Content 客户端进行了范围请求，服务器成功执行了这部分的GET请求。</li>
+<li>3xx响应结果表明浏览器需要执行某些特殊的处理。<br />
+1.301 Moved Permanently 永久性重定向，表示请求的资源已被分配了新的URI，以后应使用资源现在所指的URI。<br />
+2.302 Found 临时性重定向，表示请求的资源已被分配了新的URI，希望用户能使用新的URI访问。<br />
+3.303 See Other 请求对应的资源存在另一个URI，应使用GET方法定向获取请求的资源。</li>
+<li>4xx 响应结果表明客户端是发生错误的原因所在。<br />
+1.400 Bad Request 表示请求报文中存在语法错误。<br />
+2.401 Unauthorized 表示发送的请求需要有通过HTTP认证的认证信息。<br />
+3.403 Forbidden 表明对请求资源的访问被服务器拒绝了。<br />
+4.404 Not Found 表明服务器上无法找到请求的资源。<br /></li>
+
+<li><p>5xx 响应结果表明服务器本身发生错误<br />
+1.500 Internal Server Error 服务器端再执行请求时发生了错误，可能是Web应用存在的bug或某些临时故障<br />
+2.503 Service Unavailable 服务器暂时处理超负载或正在进行停机维护，现在无法处理请求。</p>
+
+<h5 id="http报文首部">HTTP报文首部</h5>
+
+<p>HTTP协议的请求和响应报文中必定包含HTTP首部，首部内容为客户端和服务器分别处理请求和响应提供所需要的信息，包含表示请求和响应的各种条件和属性的各类首部字段。</p>
+
+<h6 id="http请求报文">HTTP请求报文</h6>
+
+<p>由请求方法，请求URI，HTTP版本，HTTP首部字段等部分组成。
+<img src="/img/hugo/2019/应用层.resources/EABE4FB6-F95A-4DEF-9E60-C8388D8BF4EF.png" alt="a95a1d42dd496e16e3e01f9a2843e9a6" /></p>
+
+<h6 id="http响应报文">HTTP响应报文</h6>
+
+<p>由HTTP版本，状态码，原因短语，HTTP首部字段等部分组成。
+<img src="/img/hugo/2019/应用层.resources/77B99EA4-0C0B-4BE7-A245-8705218B2242.png" alt="235d4b0dc3fcdd86b8bb90348249f78e" /></p>
+
+<h6 id="http首部字段">HTTP首部字段</h6>
+
+<p>由字段名和字段值构成，中间用冒号分隔，如：
+Content-Type: text/html
+Keep-Alive: timeout=15,max=100  字段值可以有多个值
+以下都是HTTP/1.1首部字段一览</p></li>
+
+<li><p>通用首部字段
+请求报文和响应报文都会使用的首部
+<img src="/img/hugo/2019/应用层.resources/805742FE-DD69-40D0-8B0D-B21C24738507.png" alt="9c2ca888712488c9176a1bca62f163b8" /></p></li>
+
+<li><p>请求首部字段
+发送请求报文使用的首部字段，补充了请求的附加内容，客户端信息，响应内容相关优先级等信息。
+<img src="/img/hugo/2019/应用层.resources/3D3D71F7-B11A-4EEF-8F34-734A5A0681CA.png" alt="f546c807b68de090706aa0d90de0dbb6" />
+<img src="/img/hugo/2019/应用层.resources/DAF3219D-B434-4DCB-9F3C-632694852199.png" alt="a17ecdb1d6d88b08a770d7e701dbbb42" /></p></li>
+
+<li><p>响应首部字段
+服务器向客户端返回响应报文时使用的首部字段，补充了响应的附加内容。
+<img src="/img/hugo/2019/应用层.resources/A0337F7B-DFA8-4CBA-B7BF-49B4FF62BD97.png" alt="827216887e7f63bdde00e699cd3ec891" />
+<img src="/img/hugo/2019/应用层.resources/9EB94C8D-A9DD-43D1-8833-16ED00CF74C9.png" alt="05af8c9f5e29c6052d4c31f13f1eea48" /></p></li>
+
+<li><p>实体首部字段
+针对请求报文和响应报文的实体部分使用的首部，补充了资源内容更新时间等于实体有关的信息。
+<img src="/img/hugo/2019/应用层.resources/303E4912-EC46-4D2A-8720-7FC4A44D14C1.png" alt="fa8c07e6d7f200e2c10f95edd86d17ad" /></p></li>
+
+<li><p>非HTTP/1.1首部字段
+Cookie,Set-Cookie,Centent-Disposition等
+<img src="/img/hugo/2019/应用层.resources/DC08EE5C-3E16-4030-A8F9-618EF456F05A.png" alt="6761b5816badfe5b1487b1158b894caf" /></p>
+
+<h3 id="socks5代理与http代理的区别">socks5代理与http代理的区别</h3></li>
+
+<li><p>socks5协议是同时支持TCP和UDP的应用层协议，并不负责代理服务器的数据传输环节，只是在C/S两端之间建立起一条从客户端到代理服务器的授信连接。
+<img src="/img/hugo/2019/应用层.resources/5CB5494F-A5E4-44C6-B09C-F7CE54143BD7.png" alt="0a968b62bdaf0a000050cc1d9729ce48" />
+<img src="/img/hugo/2019/应用层.resources/730E2A07-3784-4591-B4D6-BCD62D35DE8B.png" alt="72ff6d453f2f9b9d9cfac73002caeae6" />
+参考：<a href="https://loggerhead.me/posts/shadowsocks-yuan-ma-fen-xi-xie-yi-yu-jie-gou.html">https://loggerhead.me/posts/shadowsocks-yuan-ma-fen-xi-xie-yi-yu-jie-gou.html</a></p></li>
+
+<li><p>http代理，会解释和重写报头，执行更高层次的过滤。通常只用于GET和POST方法，不用于CONNECT。
+<img src="/img/hugo/2019/应用层.resources/4F6E5601-A2D6-46AF-9551-DF5EAD4A2A3B.png" alt="c401b27087c9f05ae197d654f4b2fd36" />
+参考：<a href="https://zhuanlan.zhihu.com/p/28737960">https://zhuanlan.zhihu.com/p/28737960</a></p></li>
+</ul>
+
+<h2 id="其他应用层协议">其他应用层协议</h2>
+
+<ul>
+<li>telnet
+远程登录</li>
+<li>ssh
+加密的远程登录系统</li>
+<li>FTP
+两个连接的计算机之间进行文件传输时使用的协议，使用2条TCP连接，1条用来控制，另1条用于数据传输。</li>
+
+<li><p>SMTP(simple mail transfer protocol)电子邮件服务协议
+<img src="/img/hugo/2019/应用层.resources/BCE60045-4DD3-4BF9-BE28-C037BB88B394.png" alt="7cafc30020251fa85492c0f8d356c4e2" />
+<img src="/img/hugo/2019/应用层.resources/BFA6B229-18BF-4BC6-BD9C-0839C76677DD.png" alt="85d7da4f857e4354537d9a6db0eb2d1e" /></p>
+
+<h5 id="mime">MIME</h5></li>
+
+<li><p>MIME媒体类型(如application/x-www-form-urlencoded)，描述了报文实体主体消息内容的格式，属于OSI第六层表示层，email和http都使用MIME。早期的email只能处理文本格式的邮件。现在的email可以发送的数据类型已被扩展到MIME(multipurpose internet mail extensions)，可以发送静态图像，动画，声音，程序等各种形式的数据。</p></li>
+</ul>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="http://www.fdgggy.com/">niep</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="http://www.fdgggy.com/2019/11/17/yingyongceng/">http://www.fdgggy.com/2019/11/17/yingyongceng/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="http://www.fdgggy.com/tags/%E5%BA%94%E7%94%A8%E5%B1%82">应用层</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fdgggy/fdgggy.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="http://www.fdgggy.com/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/yingyongceng/" title="应用层">应用层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/chuanshuceng/" title="传输层">传输层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wangluoceng/" title="网络层">网络层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/lianluceng/" title="数据链路层">数据链路层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/11/17/wuliceng/" title="物理层">物理层</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/17/mem/" title="内存管理">内存管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/16/schedual/" title="处理机调度">处理机调度</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/15/process/" title="进程管理">进程管理</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/10/13/yinlun/" title="操作系统引论">操作系统引论</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/2019/09/18/absystem/" title="unity3d资源管理">unity3d资源管理</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/unity3d/">unity3d(5)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统(4)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法(1)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析(3)</a>
+    </li>
+    
+    <li>
+        <a href="http://www.fdgggy.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络(5)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="http://www.fdgggy.com/tags/AB%E5%8C%85/">AB包</a>
+    
+    <a href="http://www.fdgggy.com/tags/IO%E5%A4%8D%E7%94%A8/">IO复用</a>
+    
+    <a href="http://www.fdgggy.com/tags/Linux-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Linux-网络编程</a>
+    
+    <a href="http://www.fdgggy.com/tags/creator/">creator</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-listen/">socket-listen</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%88%9B%E5%BB%BA/">socket-创建</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E5%8E%9F%E7%94%9FAPI/">socket-原生API</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%9B%91%E5%90%AC/">socket-监听</a>
+    
+    <a href="http://www.fdgggy.com/tags/socket-%E7%BB%91%E5%AE%9A/">socket-绑定</a>
+    
+    <a href="http://www.fdgggy.com/tags/ugui/">ugui</a>
+    
+    <a href="http://www.fdgggy.com/tags/ui%E9%80%82%E9%85%8D/">ui适配</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity/">unity</a>
+    
+    <a href="http://www.fdgggy.com/tags/unity3d/">unity3d</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%98%E5%8C%96/">优化</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E4%BC%A0%E8%BE%93%E5%B1%82/">传输层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">内存管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6/">处理机调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BA%94%E7%94%A8%E5%B1%82/">应用层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%BC%95%E8%AE%BA/">操作系统引论</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">数据链路层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/">断线重连</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">时间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%89%A9%E7%90%86%E5%B1%82/">物理层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">空间复杂度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%AE%97%E6%B3%95/">算法</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9CIO/">网络IO</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E7%BD%91%E7%BB%9C%E5%B1%82/">网络层</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B0%83%E5%BA%A6/">调度</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD/">资源加载</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86/">资源管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B/">进程</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/">进程管理</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%98%BB%E5%A1%9E/">阻塞</a>
+    
+    <a href="http://www.fdgggy.com/tags/%E9%9D%9E%E9%98%BB%E5%A1%9E/">非阻塞</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="http://www.fdgggy.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.beian.miit.gov.cn/">niep的博客 By niep (粤ICP备19085397号-1)</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.beian.miit.gov.cn/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>
