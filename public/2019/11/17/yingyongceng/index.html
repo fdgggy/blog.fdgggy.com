@@ -249,15 +249,31 @@ Content-Type:application/json;charset:utf-8;<br />
 <p>http参数传输是以&rdquo;key1=value1&amp;key2=value2&rdquo;键值对传输的，服务器收到字符串时会用&amp;分隔每个参数，用=分隔参数值。如果参数值中包含=或者&amp;特殊字符时就需要Url编码。<br />
 url编码只是在特殊字符的各个字节(16进制)前加%即可。如name1=va%26lu%3D，服务器会把%后的字节当成普通字节，不会当成分隔符。<br />
 url编码只允许包含英文，数字，4个特殊字符(-_.~)以及所有保留字符(/?#[]@),用于分隔协议，主机，路径等。其余的需要url编码。<br />
-url编码默认使用ASCII编码，对于unicode字符，使用utf-8编码得到相应的字节，再在每个字节前加%编码。如&rdquo;中文&rdquo;使用utf-8编码得到的字节为0xE4 0xB8 0xAD 0xE6 0x96 0x87,经过URL编码之后得到%E4%B8%AD%E6%96%87</p>
+url编码默认使用ASCII编码，对于unicode字符，使用utf-8编码得到相应的字节，再在每个字节前加%编码。如&rdquo;中文&rdquo;使用utf-8编码得到的字节为0xE4 0xB8 0xAD 0xE6 0x96 0x87,经过URL编码之后得到%E4%B8%AD%E6%96%87
+部分字符转义：
++ 表示空格  %2B
+# 表示书签</p>
 
 <h4 id="持久连接">持久连接</h4>
 
 <ul>
 <li>http协议的初始版本中，每进行一次http通信就要断开一次TCP连接。随着HTTP的普及，HTML页面中包含大量的图片，在发送访问HTML页面资源的同时，也会请求该HTML页面包含的其他资源，造成无畏的TCP连接建立和断开，增加通信量的开销。</li>
+<li>HTTP/1.1和一部分HTTP/1.0实现了持久连接(HTTP keep-alive)的方法，只要任意一端没有明确提出断开连接，则保持TCP连接状态。建立1次连接后进行多次请求和响应操作。
+<img src="/img/hugo/2019/应用层.resources/0B438E00-D7CD-438C-8033-0F7F59FA9CB0.png" alt="9317f2a600b5ea0d7dd0827ab8d88cae" /></li>
 
-<li><p>HTTP/1.1和一部分HTTP/1.0实现了持久连接(HTTP keep-alive)的方法，只要任意一端没有明确提出断开连接，则保持TCP连接状态。建立1次连接后进行多次请求和响应操作。
-<img src="/img/hugo/2019/应用层.resources/0B438E00-D7CD-438C-8033-0F7F59FA9CB0.png" alt="9317f2a600b5ea0d7dd0827ab8d88cae" /></p>
+<li><p>HTTP/1.0
+1.报文首部添加Connection:Keep-Alive告知服务器保持连接
+2.如果服务器愿意为下一条请求保持连接，在响应报文包含相同的首部
+3.Keep-Alive选项，如：
+Connection: Keep-Alive
+Keep-Alive: max=5, timeout=120
+max 服务器还处理5个事务，timeout 2分钟后服务器会关闭连接。</p></li>
+
+<li><p>HTTP/1.1 默认就是持久连接，除非特别指明。
+1.关闭条件需要在报文中显式添加Connection:close首部。客户端收到响应后，无法在那条连接上发送更多请求了。
+2.如果客户端不想在连接上继续发送请求，也需要在报文中添加close首部
+3.所有客户端，服务器都可以在任意时刻关闭一条tcp连接。
+4.持久连接空闲一段时间后，服务器会关闭连接。</p>
 
 <h4 id="cookie状态管理">cookie状态管理</h4></li>
 

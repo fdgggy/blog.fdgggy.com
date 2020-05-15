@@ -79,13 +79,17 @@ GC的主要作用是从已使用内存中找出不再需要使用的内存，并
 1.尽量少使用静态变量，静态变量是GC的根节点，不会被GC  
 2.对于不再使用的对象将其设置为Null，使其可以被GC.  
 3.尽量复用对象，减少new的次数。    
-4.不同类型使用string +操作时使用StringBuilder代替String，减少不必要的字符串操作，使用for代替foreach。    
+4.不同类型使用string串联操作时使用StringBuilder代替String，减少不必要的字符串操作，使用for代替foreach,unity5.5中c#编译器做了优化处理，foreach没有装箱操作了，但foreach是通过枚举器迭代集合中的方法，还是比for或while循环手动迭代慢很多。    
 5.局部变量或非常驻变量用struct代替class.    
-6.避免在update里面new对象(class,container,array)，会导致gc频繁.   
+6.避免在update里面new对象(class,container,array)，会导致gc频繁，虽然会有clear方法，但只是消除容器的值，不释放内存。.   
 7.检查游戏标签gameObject.CompareTag("Enemy")代替gameObject.tag=="Enemy"，会多余拷贝字符串，造成gc.   
 8.不要在update中调用getcomponent，在awake或start中缓存变量。    
 9.不要使用unity GUI,会造成大量gc alloc，禁用主摄像机的GUI Layer组件。    
-10.替换Debug.Log，unity所有log类型都会跟踪堆栈调用。
+10.替换Debug.Log，unity所有log类型都会跟踪堆栈调用。  
+11.避免在每帧使用闭包和匿名方法，c#中的方法引用都是引用类型，在堆中分配，匿名方法作为参数传递时会分配内存。  
+12.避免装箱拆箱，装箱是值类型转成引用类型。例：1.不要把int转换成对象类型 2.使用枚举作为字典的键，在add,trygetvalue等操作时会导致object.gethashcode(object)，可以使用自定义比较器，实现equals,gethashcode接口，分配给dictionary的比较器。  
+13.采用缓存unity API返回的数组值，每次访问时都会创建数组的副本。如 1.mesh.vertices属性返回的是数组，不要再循环中使用，在进入循环前缓存使用。
+2.input.touches[1]也是类似
 ##### 资源侧泄漏
 资源加载后占用了内存，在资源不用后，没有将资源卸载导致内存泄漏。存在于本机堆(Native堆)中。
 * 加载场景时，unity编辑器场景里所有asset,都会自动加载。切换场景时，场景中所使用的所有资源将会被unity自动卸载。
@@ -105,7 +109,7 @@ GC的主要作用是从已使用内存中找出不再需要使用的内存，并
 * pvrtc的纹理尺寸需要正方形，否则显示不出来
 2.减少纹理尺寸，512\*512的显示效果足够了，就没必要用1024\*1024
 3.禁用Mipmap功能。mipmap会根据摄像机的远近选择不同精度的贴图，较远的显示的贴图像素低，优点是优化显存带宽减少渲染，缺点是占用内存。
-4.禁用Read&Write，决定纹理是在内存上还是显存上，开启时会使纹理内存增大。
+4.禁用Read&Write，开启时会在gpu和cpu保留2次，仅当除着色器操作时开启，如Texture.GetPixel()。
 ####### AB加载
 1.尽量用CreateFromFile加载，因为www会产生webstream流，里面包含ab包本身和包含的资源
 2.对不用的ab包，unload(false)
