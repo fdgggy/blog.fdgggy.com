@@ -18,7 +18,7 @@ summaryLength = 140
 
 [params]
   author = "niep"
-  subtitle = "专注于手游，沉浸于unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构"
+  subtitle = "专注于手游，擅长unity3d、skynet、golang、linux、移动互联网、项目管理、软件架构"
   keywords = "golang,go语言笔记,niep,博客,软件架构,skynet,unity3d,linux"
   description = "专注于IT互联网，包括但不限于Go语言(golang)、项目管理、软件架构等"
   busuanzi = true

@@ -6,15 +6,16 @@ url: /about/
 
 
 <p class="message">
-大家好，我是 niep，是一名程序员。
+大家好，我是 niep，是一名有追求的程序员。
 </p>
 
 
 ### 我的技能
 
- * 编程语言: Go, Lua, C#, Javasript, C++, Python, Php
+ * 编程语言: C/C++, C#, Lua, Javasript, Golang, Php
  * 游戏引擎: Unity3d, Creator
  * 服务器引擎: Skynet, MatchVS
+ * 游戏热更: ILRuntime, Tolua
 
 ### 生活中的我
 

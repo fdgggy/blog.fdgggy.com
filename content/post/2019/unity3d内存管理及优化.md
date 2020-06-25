@@ -18,15 +18,24 @@ url: "/2019/09/10/memmgr/"
 参考：https://segmentfault.com/a/1190000004355051
 ### MONO
 * CLI 通用语言基础架构，是一个技术规范，定义了与语言无关的跨体系结构的运行环境。开发者只需要按照规范内各种高级语言来开发软件，即可实现跨平台。规范中包括CIL，可读性较低的通用中间语言。
-* .NET是微软对CLI的一种实现，只能在windows运行
-* Mono是跨平台的，是对CLI的另一种实现，mono运行时基于堆栈。运行的是CIL语言。
-* CIL 通用中间语言，能运行在所有支持CLI的环境中。也就是可以同时运行在mono或者.net，和具体平台无关，这样就可以跨平台。
-0.选择的语言(c#,vb,boo)用不同的编译器编译为CIL
-1.代码编译为CIL
+* .NET是构造各种app(前端&后端)的开源的开发平台，包括各种语言,各种库和各种开发平台组成，语言包括C#,VB,F#，.net实现的开发平台包括：    
+1..net core 运行于windows,linux,mac.  
+2..net framework web,windows上的app.  
+3.xamarin/mono 移动端，ios，android.  
+4..net标准，针对以上.NET实现的通用API规范，每个.NET实现都要实现.net standard并且可实现其他API的类库，如.NET Framework基类库。参考：https://docs.microsoft.com/zh-cn/dotnet/standard/net-standard  
+* .NET运行时，用于托管程序的执行环境，包括管理内存，线程，代码执行，编译及其他系统服务。.NET Framework的运行时是CLR，.NET Core的运行时是CoreCLR。
+* 每个.NET实现都要包括一个运行时，CLR用于.NET Framework,CoreCLR和CoreRT用于.NET Core。
+* .NET Framework是一种.NET实现，只能在windows运行，包括CLR(公共语言运行时)和.net framework类库。
+* .NET Core是.NET的跨平台实现，用于大规模服务器等，包括CoreCLR和CoreRT运行时和.net core类库。
+* Mono是对微软的.NET Framework的开源的跨平台实现，包括mono运行时，运行的是CIL语言，可访问.NET Framework的类库。
+* CIL 通用中间语言，能运行在所有支持CLI的环境中,可以同时运行在mono或者.net，和具体平台无关，这样就可以跨平台。  
+0.选择的语言(c#,vb,boo)用不同的编译器编译为CIL.  
+1.代码编译为CIL.  
 2.运行时(mono)把CIL用不同的编译器编译成不同平台的本机原生代码，实现跨平台。
-* mono 编译
-1.JIT即时编译，动态编译，程序执行时才编译代码，并解释执行。会对编译过的代码缓存。IOS平台不允许JIT。所以Unity官方无法提供热更方案。
-2.AOT静态编译，在程序执行之前就编译好了。  
+* mono 编译类型.  
+1.JIT即时编译(Android)，动态编译，程序执行时才编译代码，并解释执行。会对编译过的代码缓存。IOS平台不允许JIT。所以Unity官方无法提供热更方案。   
+2.AOT静态编译(IOS平台下)，在程序运行之前对所有CIL代码进行AOT编译生成本机代码映像，运行时直接加载这个映像不再使用JIT。
+参考：https://www.cnblogs.com/murongxiaopifu/p/4211964.html
 
 ![9f7fe79dbabd425af8835eb028170664](/img/hugo/2019/unity3d内存管理及优化.resources/E43881D6-B3A3-4F9F-B0D3-9FF8170B3BDA.png)
 ### IL2CPP
